@@ -1,3 +1,5 @@
+package deadwoodbestgroup.src;
+
 public class Player {
     private int rank;
     private int position;

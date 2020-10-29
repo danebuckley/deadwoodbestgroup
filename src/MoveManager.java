@@ -1,3 +1,5 @@
+package deadwoodbestgroup.src;
+
 public class MoveManager {
     public void move() {
 
