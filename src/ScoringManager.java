@@ -1,4 +1,3 @@
-package deadwoodbestgroup.src;
 
 public class ScoringManager {
     

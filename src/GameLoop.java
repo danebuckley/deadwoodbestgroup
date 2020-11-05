@@ -1,4 +1,4 @@
-package deadwoodbestgroup.src;
+import java.io.IOException;
 
 public class GameLoop {
     
@@ -22,12 +22,13 @@ public class GameLoop {
 
     public GameLoop() {
         setupManager = new SetupManager();
-        setManager = new setManager();
-        moveManager = new moveManager();
-        scoreManager = new scoreManager();
+        setManager = new SetManager();
+        moveManager = new MoveManager();
+        scoreManager = new ScoringManager();
+        ui = new UI(this);
     }
 
-    public void runGame(int numPlayers) {
+    public void runGame(int numPlayers) throws IOException {
         this.numPlayers = numPlayers;
         players = setupManager.setupPlayers(numPlayers);
         setupManager.resetBoard();
@@ -37,7 +38,7 @@ public class GameLoop {
         scoreManager.scoreGame();
     }
 
-    private void gameLoop() {
+    private void gameLoop() throws IOException {
         gameOver = false;
         while (!gameOver) {
             dayLoop();
@@ -45,7 +46,7 @@ public class GameLoop {
         }
     }
 
-    private void dayLoop() {
+    private void dayLoop() throws IOException {
         currPlayer = 0;
         dayOver = false;
         while (!dayOver) {
@@ -54,12 +55,12 @@ public class GameLoop {
         }
     }
 
-    private void turnLoop() {
+    private void turnLoop() throws IOException {
         turnOver = false;
         while (!turnOver) {
-            String[] actions = getActionsOf(player[currPlayer]);
-            String action = ui.promptPlayerActions(actions);
-            switch (action) {
+            String[] actionStrings = getActionsOf(players[currPlayer]);
+            UIAction action = ui.handlePlayerActions(actionStrings);
+            switch (action.type) {
                 case "Move": print("Moving Player..."); break;
                 case "Choose Role": print("Choosing Role..."); break;
                 case "Act": print("Acting..."); break;
@@ -95,10 +96,12 @@ public class GameLoop {
     private void chooseEndTurn(Player player) {
 
     }
-    
+
 
     public String[] getActionsOf(Player player) {
-        return new String[1];
+
+        String[] actions = new String[]{"Move", "Choose Role", "Act", "Rehearse", "Upgrade", "End Turn"};
+        return actions;
     }
 
     public String[] getMoveOptions(Player player) {

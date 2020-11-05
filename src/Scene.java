@@ -1,8 +1,8 @@
-package deadwoodbestgroup.src;
 
 public class Scene {
     private String name;
     private String description;
+    private int budget;
     private Role[] roles;
 
     public Scene(String name, String description, Role[] roles) {

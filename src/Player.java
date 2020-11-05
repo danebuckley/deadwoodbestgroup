@@ -1,4 +1,3 @@
-package deadwoodbestgroup.src;
 
 public class Player {
     private String name;
@@ -8,7 +7,6 @@ public class Player {
     private int credits;
     private int turnNo;
 
-
     public Player (String name) {
         this.name = name;
         this.rank = 0;
@@ -16,7 +14,6 @@ public class Player {
         this.dollars = 0;
         this.credits = 0;
     }
-
 
     public void setRank(int rank) {
         this.rank = rank;

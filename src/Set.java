@@ -1,16 +1,14 @@
-package deadwoodbestgroup.src;
-
-import javax.management.relation.Role;
+import java.util.ArrayList;
 
 public class Set {
     private Scene scene;
     private Role[] extraRoles;
-    private List<Player> players;
+    private ArrayList<Player> players;
     private int shotCounters;
 
-    Area (Role[] extraRoles) {
+    Set (Role[] extraRoles) {
         this.extraRoles = extraRoles;
-        players = new List<Player>();
+        players = new ArrayList<Player>();
     }
 
     public void setScene(Scene scene) {
@@ -31,7 +29,7 @@ public class Set {
         return allRoles;
     }
 
-    public addPlayer(Player player) {
+    public void addPlayer(Player player) {
         players.add(player);
     }
 }

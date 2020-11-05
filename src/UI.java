@@ -1,4 +1,8 @@
-package deadwoodbestgroup.src;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class UI {
 
@@ -9,30 +13,27 @@ public class UI {
     }
 
 
-    // Utility
+    // Reused Methods
 
-    private int parseInput() {
-        return 0;
-    }
-
-    private static boolean isInt(String strNum) {
-        if (strNum == null) {
-            return false;
+    public String prompt(String descriptor, String[] actions) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        System.out.printf("%ss: \n", descriptor);
+        int i = 1;
+        for (String action : actions) {
+            System.out.println("\t " + i + ". " + action);
+            i++;
         }
-        try {
-            int d = Integer.parseInt(strNum);
-        } catch (NumberFormatException nfe) {
-            return false;
+        System.out.printf("Pick an %s (#): ", descriptor);
+        String input = "[EMPTY]";
+        while (true) {
+            System.out.print(input + " ");
+            input = in.readLine().trim();
+            if (isInt(input)) { 
+                int value = clamp(asInt(input), 1, actions.length);
+//                in.close();
+                return actions[value-1];
+            }
         }
-        return true;
-    }
-
-    private static int asInt(String strNum) {
-        return Integer.parseInt(strNum);
-    }
-
-    private static int clamp(int val, int min, int max) {
-        return Math.max(min, Math.min(max, val));
     }
 
 
@@ -42,24 +43,10 @@ public class UI {
 
     }
 
-    public String promptPlayerActions(String[] actions) {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Choose an Action (enter a number): ");
-        int i = 1;
-        for (String action : actions) {
-            System.out.println("\t " + i + ". " + action);
-            i++;
-        }
-        String input = "";
-        boolean found = false;
-        while (!found) {
-            input = nextLine().trim();
-            if (isNumeric(input)) { 
-                int value = clamp(asInt(input), 1, actions.length);
-                return actions[value-1];
-            }
-        }
-    }
+    public UIAction handlePlayerActions(String[] actions) throws IOException {
+        String action = prompt("Action", actions);
+        return new UIAction(action);
+    }    
 
     private void choose(int option) {
 
@@ -72,7 +59,7 @@ public class UI {
 
     }
 
-    private void displayMoveOptions() {
+    private void handleMoveOptions() {
 
     }
 
@@ -87,7 +74,7 @@ public class UI {
 
     }
 
-    private void displayRoleOptions() {
+    private void handleRoleOptions() {
 
     }
 
@@ -144,5 +131,33 @@ public class UI {
     // End Turn
     private void endTurn() {
 
+    }
+
+
+
+    // Utility
+
+    private int parseInput() {
+        return 0;
+    }
+
+    private static boolean isInt(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private static int asInt(String strNum) {
+        return Integer.parseInt(strNum);
+    }
+
+    private static int clamp(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
     }
 }
