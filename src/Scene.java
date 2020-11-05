@@ -12,14 +12,14 @@ public class Scene {
     }
 
     public Role[] getRoles() {
-        return new Role[1];
+        return this.roles;
     }
 
     public String getName() {
-        return "";
+        return this.name;
     }
 
     public String getDescription() {
-        return "";
+        return this.name;
     }
 }

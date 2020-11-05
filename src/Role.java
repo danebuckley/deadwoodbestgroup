@@ -2,17 +2,19 @@ package deadwoodbestgroup.src;
 
 public class Role {
     private String name;
-    private int budget;
+    private String description;
+    private int rank;
 
-    public Role(int budget) {
-        this.budget = budget;
+    public Role(String name, String description, int rank) {
+        this.name = name;
+        this.rank = rank;
     }
 
-    public int getBudget() {
-        return 0;
+    public int getRank() {
+        return this.rank;
     }
 
     public String getName() {
-        return "";
+        return this.name;
     }
 }

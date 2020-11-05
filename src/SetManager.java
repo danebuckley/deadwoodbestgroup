@@ -1,8 +1,7 @@
 package deadwoodbestgroup.src;
 
-public class AreaManager {
-    private Area[] areas;
-    private Scene[] scenes;
+public class SetManager {
+    private Set[] sets;
 
     public int getNumScenes() {
         return scenes.length;
@@ -12,7 +11,7 @@ public class AreaManager {
 
     }
 
-    public Role[] getRoles(Scene scene) {
+    public Role[] getRoles(Set set) {
         return new Role[1];
     }
 

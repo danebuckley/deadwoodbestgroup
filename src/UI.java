@@ -2,8 +2,37 @@ package deadwoodbestgroup.src;
 
 public class UI {
 
+    GameLoop gl;
+
+    public UI (GameLoop gameLoop) {
+        this.gl = gameLoop;
+    }
+
+
+    // Utility
+
     private int parseInput() {
         return 0;
+    }
+
+    private static boolean isInt(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    private static int asInt(String strNum) {
+        return Integer.parseInt(strNum);
+    }
+
+    private static int clamp(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
     }
 
 
@@ -13,8 +42,23 @@ public class UI {
 
     }
 
-    private void displayPlayerActions() {
-
+    public String promptPlayerActions(String[] actions) {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Choose an Action (enter a number): ");
+        int i = 1;
+        for (String action : actions) {
+            System.out.println("\t " + i + ". " + action);
+            i++;
+        }
+        String input = "";
+        boolean found = false;
+        while (!found) {
+            input = nextLine().trim();
+            if (isNumeric(input)) { 
+                int value = clamp(asInt(input), 1, actions.length);
+                return actions[value-1];
+            }
+        }
     }
 
     private void choose(int option) {
