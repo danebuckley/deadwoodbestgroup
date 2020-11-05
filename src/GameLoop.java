@@ -1,6 +1,6 @@
 import java.io.IOException;
 
-public class GameLoop {
+class GameLoop {
     
     // Managers
     private SetupManager setupManager;
@@ -8,6 +8,7 @@ public class GameLoop {
     private MoveManager moveManager;
     private ScoringManager scoreManager;
     private UI ui;
+    private CastingManager castingManager;
 
     private Player[] players;
 
@@ -20,23 +21,29 @@ public class GameLoop {
     private boolean dayOver;
     private boolean gameOver;
 
-    public GameLoop() {
+    GameLoop() {
         setupManager = new SetupManager();
         setManager = new SetManager();
         moveManager = new MoveManager();
         scoreManager = new ScoringManager();
         ui = new UI(this);
+        castingManager = new CastingManager();
     }
 
-    public void runGame(int numPlayers) throws IOException {
+    void runGame(int numPlayers) throws IOException {
+
+        setupManager.initializeGame();
+
         this.numPlayers = numPlayers;
         players = setupManager.setupPlayers(numPlayers);
-        setupManager.resetBoard();
 
         gameLoop();
         
         scoreManager.scoreGame();
     }
+
+
+    // Game Loops
 
     private void gameLoop() throws IOException {
         gameOver = false;
@@ -51,6 +58,7 @@ public class GameLoop {
         dayOver = false;
         while (!dayOver) {
             turnLoop();
+            currPlayer += 1;
             dayOver = true;
         }
     }
@@ -58,66 +66,84 @@ public class GameLoop {
     private void turnLoop() throws IOException {
         turnOver = false;
         while (!turnOver) {
+            print("\nPicking Action...");
             String[] actionStrings = getActionsOf(players[currPlayer]);
-            UIAction action = ui.handlePlayerActions(actionStrings);
+            UIAction action = ui.handlePlayerAction("Action", actionStrings);
+            Player player = players[currPlayer];
             switch (action.type) {
-                case "Move": print("Moving Player..."); break;
-                case "Choose Role": print("Choosing Role..."); break;
-                case "Act": print("Acting..."); break;
-                case "Rehearse": print("Rehearsing..."); break;
-                case "Upgrade": print("Upgrading..."); break;
-                case "End Turn": print("Ending Turn..."); turnOver = true; break;
+                case "Move": chooseMove(player); break;
+                case "Choose Role": chooseRole(player); break;
+                case "Act": chooseAct(player); break;
+                case "Rehearse": chooseRehearse(player); break;
+                case "Upgrade": chooseUpgrade(player); break;
+                case "End Turn": chooseEndTurn(); break;
             }
 
             // turnOver = true;
         }
     }
 
-    private void moveAction(Player player) {
 
+    // Choices
+
+    private void chooseMove(Player player) throws IOException {
+        print("\nMoving...");
+        Set[] sets = moveManager.getMoveOptions(player);
+        String[] options = moveManager.setsAsStrings(sets);
+        UIAction action = ui.handlePlayerAction("Move", options);
+        if (sets.length > 0) {
+            moveManager.move(player, sets[action.index]);
+        }
     }
 
-    private void chooseAction(Player player) {
-
+    private void chooseRole(Player player) throws IOException {
+        print("\nChoosing Role...");
+        Role[] roles = setManager.getRoleOptions(player);
+        String[] options = setManager.rolesAsStrings(roles);
+        UIAction action = ui.handlePlayerAction("Role", options);
+        if (roles.length > 0) {
+            setManager.assignRoleTo(player, roles[action.index]);
+        }
     }
 
     private void chooseAct(Player player) {
-
+        print("Acting...");
     }
 
     private void chooseRehearse(Player player) {
-
+        print("Rehearsing...");
     }
 
-    private void chooseUpgrade(Player player) {
-
+    private void chooseUpgrade(Player player) throws IOException {
+        print("\nUpgrading...");
+        int[] ranks = castingManager.getRankOptions(player);
+        String[] options = castingManager.getRankStrings(player);
+        UIAction action = ui.handlePlayerAction("Upgrade", options);
+        if (ranks.length > 0) {
+            castingManager.setRankOf(player, ranks[action.index]);
+        }
     }
 
-    private void chooseEndTurn(Player player) {
-
+    private void chooseEndTurn() {
+        print("Ending Turn...");
+        turnOver = true;
     }
 
 
-    public String[] getActionsOf(Player player) {
+    // Get Choices
 
-        String[] actions = new String[]{"Move", "Choose Role", "Act", "Rehearse", "Upgrade", "End Turn"};
-        return actions;
+    private String[] getActionsOf(Player player) {
+        return new String[]{"Move", "Choose Role", "Act", "Rehearse", "Upgrade", "End Turn"};
     }
 
-    public String[] getMoveOptions(Player player) {
-        return new String[1];
-    }
-
-    public String[] getRoleOptions(Player player) {
-        return new String[1];
-    }
-
-    public String[] getUpgradeOptions(Player player) {
-        return new String[1];
-    }
 
     // Utility
     private void print(String string) {
         System.out.println(string);
+    }
+
+
+    private static int clamp(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
     }
 }

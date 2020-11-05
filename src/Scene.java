@@ -1,18 +1,22 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 public class Scene {
     private String name;
     private String description;
     private int budget;
-    private Role[] roles;
+    private ArrayList<Role> roles;
 
-    public Scene(String name, String description, Role[] roles) {
+    Scene(String name, String description, ArrayList<Role> roles) {
         this.name = name;
         this.description = description;
         this.roles = roles;
     }
 
-    public Role[] getRoles() {
-        return this.roles;
+    Role[] getRoles() {
+        return this.roles.toArray(new Role[0]);
     }
 
     public String getName() {

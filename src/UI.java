@@ -4,82 +4,46 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-public class UI {
+class UI {
 
     GameLoop gl;
 
-    public UI (GameLoop gameLoop) {
+    UI(GameLoop gameLoop) {
         this.gl = gameLoop;
     }
 
 
     // Reused Methods
 
-    public String prompt(String descriptor, String[] actions) throws IOException {
+    private String prompt(String descriptor, String[] actions) throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         System.out.printf("%ss: \n", descriptor);
-        int i = 1;
-        for (String action : actions) {
-            System.out.println("\t " + i + ". " + action);
-            i++;
-        }
-        System.out.printf("Pick an %s (#): ", descriptor);
-        String input = "[EMPTY]";
-        while (true) {
-            System.out.print(input + " ");
-            input = in.readLine().trim();
-            if (isInt(input)) { 
-                int value = clamp(asInt(input), 1, actions.length);
+        if (actions.length > 0) {
+            int i = 1;
+            for (String action : actions) {
+                System.out.println("\t " + i + ". " + action);
+                i++;
+            }
+            System.out.printf("Pick an %s (#): ", descriptor);
+            String input = "";
+            while (true) {
+                input = in.readLine().trim();
+                if (isInt(input)) {
+                    int value = clamp(asInt(input), 1, actions.length);
 //                in.close();
-                return actions[value-1];
+                    return actions[value - 1];
+                }
             }
         }
+        else {
+            System.out.println("\t " + "[None Available]");
+            return "";
+        }
     }
 
-
-    // Beginning
-
-    private void startGame() {
-
-    }
-
-    public UIAction handlePlayerActions(String[] actions) throws IOException {
-        String action = prompt("Action", actions);
+    public UIAction handlePlayerAction(String descriptor, String[] options) throws IOException {
+        String action = prompt(descriptor, options);
         return new UIAction(action);
-    }    
-
-    private void choose(int option) {
-
-    }
-
-
-    // Moving
-
-    private void chooseMove() {
-
-    }
-
-    private void handleMoveOptions() {
-
-    }
-
-    private void move(int option) {
-
-    }
-
-
-    // Role Choosing
-
-    private void chooseRole() {
-
-    }
-
-    private void handleRoleOptions() {
-
-    }
-
-    private void roleChoice(int option) {
-
     }
 
 
@@ -89,7 +53,7 @@ public class UI {
 
     }
 
-    private void displayDice() {
+    private void handleDice() {
 
     }
 
@@ -119,7 +83,7 @@ public class UI {
 
     }
 
-    private void displayUpgradeOptions() {
+    private void handleUpgradeOptions(String[] options) {
 
     }
 

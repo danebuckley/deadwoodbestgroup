@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+import java.util.Hashtable;
+
 
 public class MoveManager {
-    public void move() {
+
+    void move(Player player, Set set) {
 
     }
 
@@ -18,5 +22,20 @@ public class MoveManager {
 
     public void rehearse() {
 
+    }
+
+
+    // Utilities
+
+    Set[] getMoveOptions(Player player) {
+        return player.currentSet.connectedSets.toArray(new Set[0]);
+    }
+
+    String[] setsAsStrings(Set[] sets) {
+        String[] strings = new String[sets.length];
+        for (int i = 0; i < sets.length; i++) {
+            strings[i] = sets[i].name;
+        }
+        return strings;
     }
 }

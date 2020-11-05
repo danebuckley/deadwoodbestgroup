@@ -1,26 +1,22 @@
 
-public class Player {
-    private String name;
-    private int rank;
-    private int position;
-    private int dollars;
-    private int credits;
-    private int turnNo;
+// NOTE: Has access to the set it is currently on.
 
-    public Player (String name) {
+public class Player {
+    String name;
+    int rank;
+    int position;
+    int dollars;
+    int credits;
+    int turnNo;
+
+    Set currentSet;
+
+    Player(String name) {
         this.name = name;
         this.rank = 0;
         this.position = 0;
         this.dollars = 0;
         this.credits = 0;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-
-    public int getRank() {
-        return this.rank;
     }
 
 
@@ -32,10 +28,6 @@ public class Player {
         this.dollars -= amount;
     }
 
-    public int getDollars() {
-        return this.dollars;
-    }
-
 
     public void addCredits(int amount) {
         this.credits += amount;
@@ -45,16 +37,8 @@ public class Player {
         this.credits -= amount;
     }
 
-    public int getCredits() {
-        return this.credits;
-    }
-
 
     public void setPosition(int position) {
         this.position = position;
-    }
-
-    public int getPosition() {
-        return this.position;
     }
 }

@@ -1,17 +1,22 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+// NOTE: sets function in a sort of linked-list fashion; there is no map of sets, as they can be accessed through one another.
+
 public class Set {
+    String name;
     private Scene scene;
     private Role[] extraRoles;
     private ArrayList<Player> players;
+    ArrayList<Set> connectedSets;
     private int shotCounters;
 
-    Set (Role[] extraRoles) {
+    Set (String name, Role[] extraRoles) {
         this.extraRoles = extraRoles;
         players = new ArrayList<Player>();
     }
 
-    public void setScene(Scene scene) {
+    void setScene(Scene scene) {
         this.scene = scene;
     }
 
@@ -19,7 +24,7 @@ public class Set {
         return this.scene;
     }
 
-    public Role[] getRoles() {
+    Role[] getRoles() {
         Role[] sceneRoles = scene.getRoles();
         int fal = sceneRoles.length;
         int sal = extraRoles.length;

@@ -1,12 +1,22 @@
 
 import java.util.Hashtable;
 
-public class UIAction {
-    public String type;
-    public Hashtable<String, Integer> args;
+// This class contains any kind of information that would need to be passed back to the GameLoop from the UI.
 
-    public UIAction (String type) {
+class UIAction {
+    String type;
+    int index;
+
+    UIAction(String type) {
         this.type = type;
-        this.args = new Hashtable<>();
+    }
+
+    UIAction(int index) {
+        this.index = index;
+    }
+
+    UIAction(String type, int index) {
+        this.type = type;
+        this.index = index;
     }
 }
