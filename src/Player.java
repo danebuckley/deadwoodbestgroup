@@ -36,9 +36,4 @@ public class Player {
     public void subCredits(int amount) {
         this.credits -= amount;
     }
-
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
 }

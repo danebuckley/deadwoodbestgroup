@@ -14,6 +14,7 @@ class SetupManager {
     void initializeGame() {
         constructPieces();
         resetBoard();
+        resetScenes();
     }
 
 
@@ -24,10 +25,6 @@ class SetupManager {
     }
 
     private void resetScenes() {
-
-    }
-
-    private void resetTokens() {
 
     }
 

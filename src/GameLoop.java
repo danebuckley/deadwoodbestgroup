@@ -141,9 +141,4 @@ class GameLoop {
     private void print(String string) {
         System.out.println(string);
     }
-
-
-    private static int clamp(int val, int min, int max) {
-        return Math.max(min, Math.min(max, val));
-    }
 }

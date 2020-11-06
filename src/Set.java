@@ -37,4 +37,13 @@ public class Set {
     public void addPlayer(Player player) {
         players.add(player);
     }
+
+    public void act(Player player) {
+
+    }
+
+    public void rehearse(Player player) {
+
+    }
+
 }

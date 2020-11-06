@@ -49,61 +49,27 @@ class UI {
 
     // Acting
 
-    private void chooseAct() {
-
-    }
-
     private void handleDice() {
-
-    }
-
-    private void act() {
 
     }
 
 
     // Rehearsing
 
-    private void chooseRehearse() {
-
-    }
-
-    private void rehearseWith(Player player) {
-
-    }
-
-    private void rehearse() {
+    private void handleRehearsal() {
 
     }
 
 
     // Upgrade
 
-    private void chooseUpgrade() {
-
-    }
-
     private void handleUpgradeOptions(String[] options) {
 
     }
 
-    private void upgrade(int option) {
-
-    }
-
-
-    // End Turn
-    private void endTurn() {
-
-    }
-
-
 
     // Utility
 
-    private int parseInput() {
-        return 0;
-    }
 
     private static boolean isInt(String strNum) {
         if (strNum == null) {
