@@ -7,7 +7,7 @@ public class Set {
     String name;
     private Scene scene;
     private Role[] extraRoles;
-    private ArrayList<Player> players;
+    ArrayList<Player> players;
     ArrayList<Set> connectedSets;
     private int shotCounters;
 

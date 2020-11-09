@@ -1,5 +1,7 @@
 import java.io.IOException;
 
+// The core class; focused mainly on the general gameloops and player actions.
+
 class GameLoop {
     
     // Managers
@@ -47,24 +49,28 @@ class GameLoop {
 
     private void gameLoop() throws IOException {
         gameOver = false;
+        // Loop should finish after the fourth day has been finished (so, probably could just be a for loop tbh).
         while (!gameOver) {
             dayLoop();
-            gameOver = true;
+            gameOver = true; // To be deleted
         }
     }
 
     private void dayLoop() throws IOException {
         currPlayer = 0;
         dayOver = false;
+        // Loop should finish after itsAWrap is called in SetManager (if there is only one scene left).
         while (!dayOver) {
             turnLoop();
             currPlayer += 1;
-            dayOver = true;
+            dayOver = true; // To be deleted
         }
     }
 
     private void turnLoop() throws IOException {
         turnOver = false;
+        // Loop should finish when the player ends their turn (or perhaps when there are no other moves left).
+        // (NOTE: Already achieved, technically)
         while (!turnOver) {
             print("\nPicking Action...");
             String[] actionStrings = getActionsOf(players[currPlayer]);
@@ -78,8 +84,6 @@ class GameLoop {
                 case "Upgrade": chooseUpgrade(player); break;
                 case "End Turn": chooseEndTurn(); break;
             }
-
-            // turnOver = true;
         }
     }
 
