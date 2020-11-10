@@ -1,15 +1,15 @@
 
-// NOTE: Has access to the set it is currently on.
+// For all the player specific data!
 
 public class Player {
-    String name;
-    int rank;
-    int position;
-    int dollars;
-    int credits;
-    int turnNo;
+    String name; // name!
+    int rank; // rank!
+    int position; // Probably obsolete-- we have no real way of indicating a finite position XD
+    int dollars; // dollars!
+    int credits; // credits!
+    int turnNo; // Felt cute, might delete later.
 
-    Set currentSet;
+    Set currentSet; // The set the player is on.
 
     Player(String name) {
         this.name = name;

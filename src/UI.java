@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
+// For anything visual; prompts, inputs, prints, etc.
+
 class UI {
 
     GameLoop gl;

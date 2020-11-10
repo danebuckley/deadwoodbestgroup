@@ -2,10 +2,12 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 
+// The ideal place for anything movement related 
+
 public class MoveManager {
 
     void move(Player player, Set set) {
-
+        
     }
 
 

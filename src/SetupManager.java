@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+// For part creation, and perhaps xml parsing.
+
 class SetupManager {
 
     private ArrayList<Set> setBank;
