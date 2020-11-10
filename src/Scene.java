@@ -3,6 +3,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+// Just for everything related to a single scene; and perhaps some accessors for it's roles or whatevs.
+
 public class Scene {
     String name;
     String description;

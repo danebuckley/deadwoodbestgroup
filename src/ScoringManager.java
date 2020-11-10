@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+// For scoring and stuff... perhaps the ideal place for anything that needs to change numbers on multiple players?
+
 public class ScoringManager {
     
     public ArrayList<Player> scoreGame(Player[] players) {

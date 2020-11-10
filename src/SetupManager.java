@@ -2,6 +2,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
+// For part creation, and perhaps xml parsing.
+
 class SetupManager {
 
     private ArrayList<Set> setBank;

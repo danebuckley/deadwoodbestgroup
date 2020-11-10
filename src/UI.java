@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
+// For anything visual; prompts, inputs, prints, etc.
+
 class UI {
 
     GameLoop gl;

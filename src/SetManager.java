@@ -1,4 +1,7 @@
 
+// The ideal place for digging into scenes and roles that have been assigned to a set. (probably)
+// This class debatably has the most expansive job in our program.
+
 public class SetManager {
     private Set[] sets;
 
