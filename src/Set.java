@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public class Set {
     String name;
     private Scene scene;
-    private Role[] extraRoles;
+    private ArrayList<Role> extraRoles;
     ArrayList<Player> players;
     ArrayList<Set> connectedSets;
     private int shotCounters;
 
-    Set (String name, Role[] extraRoles) {
+    Set (String name, ArrayList<Role> extraRoles) {
         this.extraRoles = extraRoles;
         players = new ArrayList<Player>();
     }
