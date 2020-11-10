@@ -8,6 +8,9 @@ public class Player {
     int dollars;
     int credits;
     int turnNo;
+    int practiceTokens = 0;
+    int finalScore = 0;
+
 
     Set currentSet;
 

@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 class SetupManager {
 
@@ -33,9 +35,15 @@ class SetupManager {
 
     Player[] setupPlayers(int num) {
         Player[] players = new Player[num];
+        ArrayList<Integer> turnNo = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
             players[i].currentSet = testSet;
+            turnNo.add(i);
+        }
+        Collections.shuffle(turnNo);
+        for (int i = 0; i < num; i++) {
+            players[i].turnNo = turnNo.get(i);
         }
         return players;
     }

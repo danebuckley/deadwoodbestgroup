@@ -43,7 +43,7 @@ public class Set {
     }
 
     public void rehearse(Player player) {
-
+        player.practiceTokens = player.practiceTokens + 1;
     }
 
 }
