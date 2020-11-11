@@ -28,7 +28,7 @@ class GameLoop {
         setManager = new SetManager();
         moveManager = new MoveManager();
         scoreManager = new ScoringManager();
-        ui = new UI(this);
+        ui = new UI();
         castingManager = new CastingManager();
     }
 

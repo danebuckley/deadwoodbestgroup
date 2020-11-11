@@ -2,22 +2,13 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 // For anything visual; prompts, inputs, prints, etc.
 
 class UI {
-
-    GameLoop gl;
-
-    UI(GameLoop gameLoop) {
-        this.gl = gameLoop;
-    }
-
 
     // Reused Methods
 
