@@ -55,7 +55,7 @@ class UI {
 
     // Acting
 
-    public ArrayList<Integer> handleDice(int numDice, Player player) {
+    public ArrayList<Integer> handleDice(Player player, int numDice) {
         ArrayList<Integer> diceRoll = new ArrayList<>();
         for (int i = 0; i < numDice; i++) {
             Random random = new Random();
