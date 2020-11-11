@@ -43,7 +43,7 @@ public class Set {
         players.add(player);
     }
 
-    public void payOut(Player player, int budget, int numRoles, int pos) { //this could probably be rewritten with switch statements?
+    public void payOut(Player player, int budget, int numRoles, int pos) { //this could probably be rewritten with switch statements? ASSUMES PLAYER IS ON SCENE AND NOT EXTRA ROLE, does not include bonuses, make for loops their own function
         ArrayList<Integer> diceRoll = handleDice(player, budget);
         if (numRoles == 1) {
             for (int i = 0; i < diceRoll.size(); i++) {
@@ -101,8 +101,14 @@ public class Set {
         }
     }
 
-    public void act(Player player) {
-
+    public boolean act(Player player, int budget) { //currently assumes that the player on the card
+        ArrayList<Integer> diceRoll = handleDice(player, 1);
+        if (diceRoll.get(0) > budget) {
+            player.credits = player.credits + 2;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void rehearse(Player player) { //on scene completion the players practice tokens need to be reset
