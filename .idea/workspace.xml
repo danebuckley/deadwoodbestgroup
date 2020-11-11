@@ -56,18 +56,14 @@
                 <element signature="e#573#574#0" expanded="true" />
                 <element signature="e#1147#1148#0" expanded="true" />
                 <element signature="e#1212#1213#0" expanded="true" />
-=======
             <state relative-caret-position="152">
               <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
->>>>>>> 76a2999909fb1c6cd57d50623d293796ec620bf6
-=======
             <state relative-caret-position="152">
               <caret line="15" column="25" selection-start-line="15" selection-start-column="25" selection-end-line="15" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
->>>>>>> 76a2999909fb1c6cd57d50623d293796ec620bf6
               </folding>
             </state>
           </provider>
