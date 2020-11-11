@@ -14,7 +14,7 @@ public class Player {
 
     Player(String name) {
         this.name = name;
-        this.rank = 0;
+        this.rank = 1;
         this.dollars = 0;
         this.credits = 0;
     }

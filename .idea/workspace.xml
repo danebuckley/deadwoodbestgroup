@@ -2,28 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecc8253a-df3c-4c84-9728-fbc03b77d528" name="Default Changelist" comment="">
-<<<<<<< HEAD
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/GameLoop.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/Main.class" beforeDir="false" />
-=======
-=======
 >>>>>>> 76a2999909fb1c6cd57d50623d293796ec620bf6
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/GameLoop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/GameLoop.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/Main.class" afterDir="false" />
-<<<<<<< HEAD
->>>>>>> 76a2999909fb1c6cd57d50623d293796ec620bf6
-=======
->>>>>>> 76a2999909fb1c6cd57d50623d293796ec620bf6
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/MoveManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/MoveManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/Role.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/Scene.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/Scene.class" afterDir="false" />
-<<<<<<< HEAD
-<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/ScoringManager.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/Set.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/Set.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/SetManager.class" beforeDir="false" />
@@ -32,9 +22,6 @@
       <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Set.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Set.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI.java" afterDir="false" />
-=======
-=======
->>>>>>> 76a2999909fb1c6cd57d50623d293796ec620bf6
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/ScoringManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/ScoringManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/Set.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/Set.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Deadwood/SetManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Deadwood/SetManager.class" afterDir="false" />
@@ -48,10 +35,6 @@
       <change beforePath="$PROJECT_DIR$/src/SetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SetManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SetupManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SetupManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XMLTestFile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/XMLTestFile.xml" afterDir="false" />
-<<<<<<< HEAD
->>>>>>> 76a2999909fb1c6cd57d50623d293796ec620bf6
-=======
->>>>>>> 76a2999909fb1c6cd57d50623d293796ec620bf6
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -65,8 +48,6 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Set.java">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
             <state relative-caret-position="255">
               <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
               <folding>
@@ -104,8 +85,6 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ParseXML.java">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-<<<<<<< HEAD
             <state relative-caret-position="190">
               <caret line="43" column="20" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="20" />
 =======

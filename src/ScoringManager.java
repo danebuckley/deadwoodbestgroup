@@ -3,7 +3,6 @@ import java.util.ArrayList;
 // For scoring and stuff... perhaps the ideal place for anything that needs to change numbers on multiple players?
 
 public class ScoringManager {
-    
     public ArrayList<Player> scoreGame(Player[] players) {
         ArrayList<Player> finalList = new ArrayList<>();
         for (int i = 0; i < players.length; i++) {
@@ -13,10 +12,6 @@ public class ScoringManager {
             finalList.add(players[i]);
         }
         return finalList;
-    }
-
-    public void payOut(Player player, int budget, int pos){
-
     }
 
     public void endScoring(ArrayList<Player> finalList){

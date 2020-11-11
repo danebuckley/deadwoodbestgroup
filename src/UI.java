@@ -55,23 +55,6 @@ class UI {
 
     // Acting
 
-    public ArrayList<Integer> handleDice(Player player, int numDice) {
-        ArrayList<Integer> diceRoll = new ArrayList<>();
-        for (int i = 0; i < numDice; i++) {
-            Random random = new Random();
-            int currentRand = random.nextInt(6) + 1;
-            diceRoll.add(currentRand);
-        }
-        bubbleSort(diceRoll);
-        if (player.practiceTokens > 0) {
-            for (int i = 0; i < numDice; i++) {
-                diceRoll.set(i, diceRoll.get(i) + 1);
-            }
-        }
-        return diceRoll;
-    }
-
-
     // Rehearsing
 
     private void handleRehearsal() {
@@ -87,22 +70,6 @@ class UI {
 
 
     // Utility
-
-    public static void bubbleSort(ArrayList<Integer> a) {
-        boolean isSorted = false;
-        int temp;
-        while (!isSorted) {
-            isSorted = true;
-            for (int i = 0; i < a.size() - 1; i++) {
-                if (a.get(i) < a.get(i+1)) {
-                    temp = a.get(i);
-                    a.set(i, a.get(i+1));
-                    a.set(i+1, temp);
-                    isSorted = false;
-                }
-            }
-        }
-    }
 
     private static boolean isInt(String strNum) {
         if (strNum == null) {
