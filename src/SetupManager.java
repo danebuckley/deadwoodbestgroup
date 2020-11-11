@@ -17,6 +17,13 @@ class SetupManager {
     private Scene testScene;
 
 
+    public SetupManager() {
+        this.setbank = new ArrayList<Set>();
+        this.scenebank = new ArrayList<Scene>();
+        this.rolebank = new ArrayList<Role>();
+        this.extrabank = new ArrayList<Role>();
+    }
+
     void initializeGame() {
         constructPieces();
         resetBoard();
@@ -65,16 +72,10 @@ class SetupManager {
         // setBank = new ArrayList<Set>();
         // setBank.add(new Set("The Forest", extraRoleBank));
 
-        // testScene = sceneBank.get(0);
-
-        // testSet = setBank.get(0);
-        // testSet.connectedSets = setBank;
-        // testSet.setScene(testScene);
-
         Document document;
         try{
       
-            document = ParseXML.getDocFromFile("XMLTestFile.xml");
+            document = ParseXML.getDocFromFile("src/XMLTestFile.xml");
             ParseXML.parseRoleDataTo(document, rolebank, "rolebank");
             ParseXML.parseRoleDataTo(document, extrabank, "extrabank");
             ParseXML.parseSceneDataTo(document, scenebank, rolebank);
@@ -85,6 +86,11 @@ class SetupManager {
             System.out.println("Error = "+e);
          
          }
-        
+
+        testScene = scenebank.get(0);
+
+        testSet = setbank.get(0);
+        testSet.connectedSets = setbank;
+        testSet.setScene(testScene);
     }
 }

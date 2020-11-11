@@ -41,7 +41,7 @@ class GameLoop {
 
         gameLoop();
         
-        scoreManager.scoreGame(); //this needs to receive the player array as input
+        scoreManager.scoreGame(players); //this needs to receive the player array as input
     }
 
 

@@ -104,6 +104,7 @@ public class ParseXML{
          for (int j = 0; j < sets.getLength(); j++) {
             Node set = sets.item(j);
             String name = "";
+            int maxShots = 2;
             ArrayList<Role> roles = new ArrayList<Role>();
 
             NodeList nodes = set.getChildNodes();
@@ -112,13 +113,16 @@ public class ParseXML{
                if ("name".equals(node.getNodeName())) {
                   name = node.getTextContent();
                }
+               else if ("maxShots".equals(node.getNodeName())) {
+                  maxShots = Integer.parseInt(node.getTextContent());
+               }
                else if ("roleidx".equals(node.getNodeName())) {
                   int idx = Integer.parseInt(node.getTextContent());
                   roles.add(rolebank.get(idx));
                }
             }
 
-            Set newScene = new Set(name, roles);
+            Set newScene = new Set(name, maxShots, roles);
             setbank.add(newScene);
          }
       }

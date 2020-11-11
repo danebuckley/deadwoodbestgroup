@@ -6,7 +6,6 @@ import java.util.Collections;
 // Just for everything related to a single scene; and perhaps some accessors for it's roles or whatevs.
 
 public class Scene {
-    int id;
     String name;
     String description;
     int budget;

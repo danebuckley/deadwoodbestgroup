@@ -11,6 +11,7 @@ public class SetManager {
     }
 
     private Role[] getRoles(Set set) {
+        System.out.println(set.name);
         return set.getRoles();
     }
 

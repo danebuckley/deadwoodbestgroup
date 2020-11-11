@@ -9,11 +9,15 @@ public class Set {
     private ArrayList<Role> extraRoles;
     ArrayList<Player> players;
     ArrayList<Set> connectedSets;
+    private int maxShots;
     private int shotCounters;
 
-    Set (String name, ArrayList<Role> extraRoles) {
+    Set (String name, int maxShots, ArrayList<Role> extraRoles) {
+        this.name = name;
         this.extraRoles = extraRoles;
-        players = new ArrayList<Player>();
+        this.maxShots = maxShots;
+        this.shotCounters = 0;
+        this.players = new ArrayList<Player>();
     }
 
     void setScene(Scene scene) {
@@ -27,10 +31,10 @@ public class Set {
     Role[] getRoles() {
         Role[] sceneRoles = scene.getRoles();
         int fal = sceneRoles.length;
-        int sal = extraRoles.length;
+        int sal = extraRoles.size();
         Role[] allRoles = new Role[fal + sal];
         System.arraycopy(sceneRoles, 0, allRoles, 0, fal);
-        System.arraycopy(extraRoles, 0, allRoles, fal, sal);
+        System.arraycopy(extraRoles.toArray(), 0, allRoles, fal, sal);
         return allRoles;
     }
 
