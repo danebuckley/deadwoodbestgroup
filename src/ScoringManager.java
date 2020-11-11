@@ -15,7 +15,7 @@ public class ScoringManager {
         return finalList;
     }
 
-    public void payOut(){ //gotta set up the values on each scene for this to be written
+    public void payOut(Player player, int budget, int pos){
 
     }
 
