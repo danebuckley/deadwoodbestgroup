@@ -7,14 +7,19 @@ import java.util.Collections;
 
 public class Scene {
     String name;
-    String description;
+    String img;
     int budget;
+    int number;
+    String description;
     private ArrayList<Role> roles;
 
-    Scene(String name, String description, ArrayList<Role> roles) {
+    Scene(String name, String img, int budget, int number, String description, ArrayList<Role> parts) {
         this.name = name;
+        this.img = img;
+        this.budget = budget;
+        this.number = number;
         this.description = description;
-        this.roles = roles;
+        this.roles = parts;
     }
 
     Role[] getRoles() {
