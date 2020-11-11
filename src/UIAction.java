@@ -1,5 +1,4 @@
 
-import java.util.Hashtable;
 
 // This class contains any kind of information that would need to be passed back to the GameLoop from the UI.
 
