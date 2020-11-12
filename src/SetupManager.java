@@ -1,4 +1,5 @@
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,9 +10,10 @@ import org.w3c.dom.Document;
 class SetupManager {
 
     private ArrayList<Set> setbank;
+    private ArrayList<IArea> areabank;
     private ArrayList<Scene> scenebank;
-    private ArrayList<Role> rolebank;
-    private ArrayList<Role> extrabank;
+//    private ArrayList<Role> rolebank;
+//    private ArrayList<Role> extrabank;
 
     private Set testSet;
     private Scene testScene;
@@ -20,8 +22,8 @@ class SetupManager {
     public SetupManager() {
         this.setbank = new ArrayList<Set>();
         this.scenebank = new ArrayList<Scene>();
-        this.rolebank = new ArrayList<Role>();
-        this.extrabank = new ArrayList<Role>();
+//        this.rolebank = new ArrayList<Role>();
+//        this.extrabank = new ArrayList<Role>();
     }
 
     void initializeGame() {
@@ -72,14 +74,17 @@ class SetupManager {
         // setBank = new ArrayList<Set>();
         // setBank.add(new Set("The Forest", extraRoleBank));
 
-        Document document;
         try{
       
-            document = ParseXML.getDocFromFile("src/XMLTestFile.xml");
-            ParseXML.parseRoleDataTo(document, rolebank, "rolebank");
-            ParseXML.parseRoleDataTo(document, extrabank, "extrabank");
-            ParseXML.parseSceneDataTo(document, scenebank, rolebank);
-            ParseXML.parseSetDataTo(document, setbank, scenebank, extrabank);
+            Document testDoc = ParseXML.getDocFromFile("src/XMLTestFile.xml");
+            Document cardDoc = ParseXML.getDocFromFile("src/cards.xml");
+            Document boardDoc = ParseXML.getDocFromFile("src/board.xml");
+            ParseXML.parseSceneCards(cardDoc, scenebank);
+            ParseXML.parseBoard(boardDoc, setbank, areabank);
+//            ParseXML.parseRoleDataTo(document, rolebank, "rolebank");
+//            ParseXML.parseRoleDataTo(document, extrabank, "extrabank");
+//            ParseXML.parseSceneDataTo(document, scenebank, rolebank);
+//            ParseXML.parseSetDataTo(document, setbank, scenebank, extrabank);
          
          }catch (Exception e){
          
@@ -87,10 +92,10 @@ class SetupManager {
          
          }
 
-        testScene = scenebank.get(0);
-
-        testSet = setbank.get(0);
-        testSet.connectedSets = setbank;
-        testSet.setScene(testScene);
+//        testScene = scenebank.get(0);
+//
+//        testSet = setbank.get(0);
+//        testSet.connectedSets = setbank;
+//        testSet.setScene(testScene);
     }
 }

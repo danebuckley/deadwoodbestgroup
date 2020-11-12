@@ -1,22 +1,35 @@
-import java.lang.reflect.Array;
+
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 // NOTE: sets function in a sort of linked-list fashion; there is no map of sets, as they can be accessed through one another.
 
-public class Set {
+public class Set implements IArea {
     String name;
-    private Scene scene;
+    ArrayList<String> defaultNeighbors = null;
+    private Rectangle area;
+    private ArrayList<Integer> takeNums;
+    private ArrayList<Rectangle> takeAreas;
     private ArrayList<Role> extraRoles;
-    ArrayList<Player> players;
-    ArrayList<Set> connectedSets;
     private int maxShots;
-    private int shotCounters;
 
-    Set (String name, int maxShots, ArrayList<Role> extraRoles) {
+    ArrayList<Set> connectedSets = null;
+
+    private Scene scene;
+    private int shotCounters;
+    ArrayList<Player> players;
+
+    Set (String name, ArrayList<String> neighborStrings, Rectangle area, ArrayList<Integer> takeNums, ArrayList<Rectangle> takeAreas, ArrayList<Role> parts) {
         this.name = name;
-        this.extraRoles = extraRoles;
-        this.maxShots = maxShots;
+        this.defaultNeighbors = neighborStrings;
+        this.area = area;
+        this.takeNums = takeNums;
+        this.takeAreas = takeAreas;
+        this.extraRoles = parts;
+        this.maxShots = takeNums.size();
+
         this.shotCounters = 0;
         this.players = new ArrayList<Player>();
     }
