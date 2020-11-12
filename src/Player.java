@@ -10,7 +10,7 @@ public class Player {
     int credits; // credits!
     int turnNo; // Felt cute, might delete later.
 
-    Set currentSet; // The set the player is on.
+    IArea currentArea; // The set the player is on.
 
     Player(String name) {
         this.name = name;

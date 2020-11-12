@@ -1,6 +1,7 @@
 
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -15,7 +16,7 @@ public class Set implements IArea {
     private ArrayList<Role> extraRoles;
     private int maxShots;
 
-    ArrayList<Set> connectedSets = null;
+    ArrayList<IArea> connectedAreas = null;
 
     private Scene scene;
     private int shotCounters;

@@ -22,15 +22,11 @@ public class SetManager {
 
     }
 
-    public void resetScenes() {
-
-    }
-
 
     // Utilities
 
     Role[] getRoleOptions(Player player) {
-        return getRoles(player.currentSet);
+        return getRoles((Set)player.currentArea);
     }
 
     String[] rolesAsStrings(Role[] roles) {

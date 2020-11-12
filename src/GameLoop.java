@@ -39,7 +39,7 @@ class GameLoop {
         this.numPlayers = numPlayers;
         players = setupManager.setupPlayers(numPlayers);
 
-        gameLoop();
+        gameLoop(numPlayers);
         
         scoreManager.scoreGame(players); //this needs to receive the player array as input
     }
@@ -47,12 +47,25 @@ class GameLoop {
 
     // Game Loops
 
-    private void gameLoop() throws IOException {
-        gameOver = false;
-        // Loop should finish after the fourth day has been finished (so, probably could just be a for loop tbh).
-        while (!gameOver) {
+    private void gameLoop(int numPlayers) throws IOException {
+        int numDays = 4;
+        if (numPlayers == 2 || numPlayers == 3) {
+            numDays = 3;
+        } else if (numPlayers == 5) {
+            for (int i = 0; i < players.length; i++) {
+                players[i].credits += 2;
+            }
+        } else if (numPlayers == 6) {
+            for (int i = 0; i < players.length; i++) {
+                players[i].credits += 4;
+            }
+        } else if (numPlayers == 7 || numPlayers == 8) {
+            for (int i = 0; i < players.length; i++) {
+                players[i].rank = 2;
+            }
+        }
+        for (int i = 0; i < numDays; i++) {
             dayLoop();
-            gameOver = true; // To be deleted
         }
     }
 
@@ -92,11 +105,11 @@ class GameLoop {
 
     private void chooseMove(Player player) throws IOException {
         print("\nMoving...");
-        Set[] sets = moveManager.getMoveOptions(player);
-        String[] options = moveManager.setsAsStrings(sets);
+        IArea[] areas = moveManager.getMoveOptions(player);
+        String[] options = moveManager.areasAsStrings(areas);
         UIAction action = ui.handlePlayerAction("Move", options);
-        if (sets.length > 0) {
-            moveManager.move(player, sets[action.index]);
+        if (areas.length > 0) {
+            moveManager.move(player, areas[action.index]);
         }
     }
 
@@ -111,6 +124,7 @@ class GameLoop {
     }
 
     private void chooseAct(Player player) {
+        SetupManager setup = new SetupManager();
         print("Acting...");
     }
 

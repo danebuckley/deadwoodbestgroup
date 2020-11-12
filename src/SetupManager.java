@@ -21,6 +21,7 @@ class SetupManager {
 
     public SetupManager() {
         this.setbank = new ArrayList<Set>();
+
         this.scenebank = new ArrayList<Scene>();
 //        this.rolebank = new ArrayList<Role>();
 //        this.extrabank = new ArrayList<Role>();
@@ -28,14 +29,14 @@ class SetupManager {
 
     void initializeGame() {
         constructPieces();
-        resetBoard();
+        resetPlayers();
         resetScenes();
     }
 
 
     // Reseters-- for each game played on the same board.
 
-    private void resetBoard() {
+    private void resetPlayers() {
 
     }
 
@@ -51,7 +52,7 @@ class SetupManager {
         ArrayList<Integer> turnNo = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
-            players[i].currentSet = testSet;
+            players[i].currentArea = areabank.get(0);
             turnNo.add(i);
         }
         Collections.shuffle(turnNo);
