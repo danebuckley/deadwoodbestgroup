@@ -3,17 +3,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import org.w3c.dom.*;
-import org.w3c.dom.css.Rect;
 
-import java.io.File;
-import java.security.KeyStore.Entry.Attribute;
 import java.util.Hashtable;
-import java.util.jar.Attributes;
 
 public class ParseXML{
 
