@@ -56,7 +56,7 @@ public class Set implements IArea {
         players.add(player);
     }
 
-    public void payOut(Player player, int budget, int numRoles, int pos) { //ASSUMES PLAYER IS ON SCENE AND NOT EXTRA ROLE, does not include bonuses, make for loops their own function
+    public void payOut(Player player, int budget, int numRoles, int pos) { //ASSUMES PLAYER IS ON SCENE AND NOT EXTRA ROLE, does not include bonuses
         ArrayList<Integer> diceRoll = handleDice(player, budget);
         for (int i = (pos - 1); i < diceRoll.size(); i = i + numRoles) {
             try {

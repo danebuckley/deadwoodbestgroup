@@ -112,8 +112,6 @@ class GameLoop {
 
     private void chooseAct(Player player) {
         print("Acting...");
-        if ( == true) {
-        }
     }
 
     private void chooseRehearse(Player player) {
