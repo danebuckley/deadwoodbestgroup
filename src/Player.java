@@ -11,6 +11,7 @@ public class Player {
     int turnNo; // Felt cute, might delete later.
 
     IArea currentArea; // The set the player is on.
+    boolean working = false;
 
     Player(String name) {
         this.name = name;

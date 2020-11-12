@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 
 // The core class; focused mainly on the general gameloops and player actions.
 
@@ -151,7 +152,31 @@ class GameLoop {
     // Get Choices
 
     private String[] getActionsOf(Player player) {
-        return new String[]{"Move", "Choose Role", "Act", "Rehearse", "Upgrade", "End Turn"};
+        ArrayList<String> actions = new ArrayList<>();
+
+        IArea curArea = player.currentArea;
+        if (!"Trailer".equals(curArea.name)) {
+            actions.add("Move");
+        }
+        if (!"Office".equals(curArea.name)) {
+            actions.add("Move");
+            actions.add("Upgrade");
+        }
+        else {
+
+            if (!player.working) {
+                actions.add("Move");
+                actions.add("Choose Role");
+            }
+            else {
+                actions.add("Act");
+                actions.add("Rehearse");
+            }
+        }
+        actions.add("End Turn");
+
+        return actions.toArray(new String[0]);
+//        return new String[]{"Move", "Choose Role", "Act", "Rehearse", "Upgrade", "End Turn"};
     }
 
 
