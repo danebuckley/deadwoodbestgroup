@@ -6,8 +6,8 @@ import java.util.Hashtable;
 
 public class MoveManager {
 
-    void move(Player player, Set set) {
-
+    void move(Player player, Set set) { //needs to ask if they want to take the roles that are available there (Y/N)
+        player.currentSet = set;
     }
 
 

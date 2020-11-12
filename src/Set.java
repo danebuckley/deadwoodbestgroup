@@ -43,60 +43,13 @@ public class Set {
         players.add(player);
     }
 
-    public void payOut(Player player, int budget, int numRoles, int pos) { //this could probably be rewritten with switch statements? ASSUMES PLAYER IS ON SCENE AND NOT EXTRA ROLE, does not include bonuses, make for loops their own function
+    public void payOut(Player player, int budget, int numRoles, int pos) { //ASSUMES PLAYER IS ON SCENE AND NOT EXTRA ROLE, does not include bonuses, make for loops their own function
         ArrayList<Integer> diceRoll = handleDice(player, budget);
-        if (numRoles == 1) {
-            for (int i = 0; i < diceRoll.size(); i++) {
+        for (int i = (pos - 1); i < diceRoll.size(); i = i + numRoles) {
+            try {
                 player.dollars = player.dollars + diceRoll.get(i);
-            }
-        } else if (numRoles == 2) {
-            if (pos == 1) {
-                for (int i = 0; i < diceRoll.size(); i = i + 2) {
-                    try { //not sure if this will work for error handling
-                        player.dollars = player.dollars + diceRoll.get(i);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        return;
-                    }
-                }
-            }
-            if (pos == 2) {
-                for (int i = 1; i < diceRoll.size(); i = i + 2) {
-                    try {
-                        player.dollars = player.dollars + diceRoll.get(i);
-                    } catch (ArrayIndexOutOfBoundsException e){
-                        return;
-                    }
-                }
-            }
-        } else if (numRoles == 3) {
-            if (pos == 1) {
-                for (int i = 0; i < diceRoll.size(); i = i + 3) {
-                    try {
-                        player.dollars = player.dollars + diceRoll.get(i);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        return;
-                    }
-                }
-            }
-
-            if (pos == 2) {
-                for (int i = 1; i < diceRoll.size(); i = i + 3) {
-                    try {
-                        player.dollars = player.dollars + diceRoll.get(i);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        return;
-                    }
-                }
-            }
-
-            if (pos == 3) {
-                for (int i = 2; i < diceRoll.size(); i = i + 3) {
-                    try {
-                        player.dollars = player.dollars + diceRoll.get(i);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        return;
-                    }
-                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                return;
             }
         }
     }
