@@ -39,7 +39,7 @@ class GameLoop {
 
         this.numPlayers = numPlayers;
         players = setupManager.setupPlayers(numPlayers);
-
+        turnSort(players);
         gameLoop(numPlayers);
         
         scoreManager.scoreGame(players); //this needs to receive the player array as input
@@ -71,20 +71,25 @@ class GameLoop {
     }
 
     private void dayLoop() throws IOException {
-        currPlayer = 0;
+        currPlayer = -1;
         dayOver = false;
         // Loop should finish after itsAWrap is called in SetManager (if there is only one scene left).
         while (!dayOver) {
-            turnLoop();
             currPlayer += 1;
-            dayOver = true; // To be deleted
+            if (currPlayer == players.length) {
+                currPlayer = 0;
+            }
+            turnLoop();
+            if (setManager.wrapCount == 9) {
+                dayOver = true;
+            }
         }
     }
 
+
     private void turnLoop() throws IOException {
         turnOver = false;
-        // Loop should finish when the player ends their turn (or perhaps when there are no other moves left).
-        // (NOTE: Already achieved, technically)
+        System.out.println(players[currPlayer].name + "'s turn:");
         while (!turnOver) {
             print("\nPicking Action...");
             String[] actionStrings = getActionsOf(players[currPlayer]);
@@ -145,6 +150,7 @@ class GameLoop {
 
     private void chooseEndTurn() {
         print("Ending Turn...");
+        print("\n");
         turnOver = true;
     }
 
@@ -183,5 +189,21 @@ class GameLoop {
     // Utility
     private void print(String string) {
         System.out.println(string);
+    }
+
+    private static void turnSort(Player[] a) {
+        boolean isSorted = false;
+        Player temp;
+        while (!isSorted) {
+            isSorted = true;
+            for (int i = 0; i < a.length - 1; i++) {
+                if (a[i].turnNo > a[i+1].turnNo) {
+                    temp = a[i];
+                    a[i] = a[i+1];
+                    a[i+1] = temp;
+                    isSorted = false;
+                }
+            }
+        }
     }
 }

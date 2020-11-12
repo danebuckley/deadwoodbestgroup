@@ -4,7 +4,7 @@
 
 public class SetManager {
     private Set[] sets;
-
+    int wrapCount;
 
     void assignRoleTo(Player player, Role role) {
 
@@ -18,8 +18,15 @@ public class SetManager {
 
     // Scoring and Resetting
 
-    public void itsAWrap() {
+    public void itsAWrap(Player player) {
+        //payout
+        player.working = false;
+        player.practiceTokens = 0;
+        wrapCount++;
+    }
 
+    public int getWrapCount(){
+        return wrapCount;
     }
 
 

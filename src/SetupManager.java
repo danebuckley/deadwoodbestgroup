@@ -1,9 +1,6 @@
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.*;
 
 import org.w3c.dom.Document;
 
@@ -52,9 +49,13 @@ class SetupManager {
     Player[] setupPlayers(int num) {
         Player[] players = new Player[num];
         ArrayList<Integer> turnNo = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
             players[i].currentArea = areabank.get("Trailer");
+            System.out.println("Please enter Player " + (i+1) + "'s name:");
+            String name = scanner.next();
+            players[i].name = name;
             turnNo.add(i);
         }
         Collections.shuffle(turnNo);
@@ -99,7 +100,7 @@ class SetupManager {
         Enumeration<String> keys = areabank.keys();
         while (keys.hasMoreElements()) {
             IArea area = areabank.get(keys.nextElement());
-            System.out.println(areabank.get("Trailer"));
+            System.out.println(area.defaultNeighbors.isEmpty());
             for (int i = 0; i < area.defaultNeighbors.size(); i++) {
                 area.connectedAreas.add(areabank.get(area.defaultNeighbors.get(i)));
             }
