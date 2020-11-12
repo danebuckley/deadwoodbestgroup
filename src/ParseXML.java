@@ -12,6 +12,7 @@ import org.w3c.dom.css.Rect;
 
 import java.io.File;
 import java.security.KeyStore.Entry.Attribute;
+import java.util.Hashtable;
 import java.util.jar.Attributes;
 
 public class ParseXML{
@@ -69,9 +70,9 @@ public class ParseXML{
       } // Card
    }
 
-   public static void parseBoard(Document d, ArrayList<Set> setbank, ArrayList<IArea> areabank) {
+   public static void parseBoard(Document d, ArrayList<Set> setbank, Hashtable<String, IArea> areabank) {
       Element root = d.getDocumentElement();
-      NodeList elements = root.getElementsByTagName("card");
+      NodeList elements = root.getChildNodes();
       for (int i = 0; i < elements.getLength(); i++) {
 
          Node element = elements.item(i);
@@ -88,7 +89,7 @@ public class ParseXML{
       } // Card
    }
 
-   private static void parseTrailer(Node rootElement, ArrayList<IArea> areabank) {
+   private static void parseTrailer(Node rootElement, Hashtable<String, IArea> areabank) {
 
       ArrayList<String> trailerNeighbors = new ArrayList<>();
       Rectangle trailerArea = new Rectangle();
@@ -105,10 +106,10 @@ public class ParseXML{
          }
       }
 
-      areabank.add(new Trailer(trailerNeighbors, trailerArea));
+      areabank.put("Trailer", new Trailer(trailerNeighbors, trailerArea));
    }
 
-   private static void parseOffice(Node rootElement, ArrayList<IArea> areabank) {
+   private static void parseOffice(Node rootElement, Hashtable<String, IArea> areabank) {
 
       ArrayList<String> officeNeighbors = new ArrayList<>();
       Rectangle officeArea = new Rectangle();
@@ -129,10 +130,10 @@ public class ParseXML{
          }
       }
 
-      areabank.add(new Office(officeNeighbors, officeArea));
+      areabank.put("Office", new Office(officeNeighbors, officeArea));
    }
 
-   private static void parseSet(Node rootElement, ArrayList<Set> setbank, ArrayList<IArea> areabank) {
+   private static void parseSet(Node rootElement, ArrayList<Set> setbank, Hashtable<String, IArea> areabank) {
 
       String setName = parseStringAttribute(rootElement, "name");
       ArrayList<String> setNeighborStrings = new ArrayList<>();
@@ -161,7 +162,7 @@ public class ParseXML{
 
       Set set = new Set(setName, setNeighborStrings, setArea, setTakeNums, setTakeAreas, setParts);
       setbank.add(set);
-      areabank.add(set);
+      areabank.put(setName, set);
    }
 
    private static void parseUpgrades(Node rootElement, ArrayList<Upgrade> finalUpgrades) {
@@ -185,7 +186,9 @@ public class ParseXML{
       NodeList neighbors = rootElement.getChildNodes();
       for (int k = 0; k < neighbors.getLength(); k++) {
          Node neighbor = neighbors.item(k);
-         finalNeighbors.add(parseStringAttribute(neighbor, "name"));
+         if ("neighbor".equals(neighbor.getNodeName())) {
+            finalNeighbors.add(parseStringAttribute(neighbor, "name"));
+         }
       }
    }
 
@@ -193,10 +196,13 @@ public class ParseXML{
       NodeList takes = rootElement.getChildNodes();
       for (int k = 0; k < takes.getLength(); k++) {
          Node take = takes.item(k);
-         takeNums.add(parseIntegerAttribute(take, "number"));
-         Rectangle takeArea = new Rectangle();
-         parseArea(take.getFirstChild(), takeArea);
-         takeAreas.add(takeArea);
+         if ("take".equals(take.getNodeName())) {
+            takeNums.add(parseIntegerAttribute(take, "number"));
+            Rectangle takeArea = new Rectangle();
+            parseArea(take.getFirstChild(), takeArea);
+            takeAreas.add(takeArea);
+         }
+
       }
    }
 

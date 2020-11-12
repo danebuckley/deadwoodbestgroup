@@ -2,6 +2,8 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 import org.w3c.dom.Document;
 
@@ -10,7 +12,7 @@ import org.w3c.dom.Document;
 class SetupManager {
 
     private ArrayList<Set> setbank;
-    private ArrayList<IArea> areabank;
+    private Hashtable<String, IArea> areabank;
     private ArrayList<Scene> scenebank;
 //    private ArrayList<Role> rolebank;
 //    private ArrayList<Role> extrabank;
@@ -20,9 +22,9 @@ class SetupManager {
 
 
     public SetupManager() {
-        this.setbank = new ArrayList<Set>();
-
-        this.scenebank = new ArrayList<Scene>();
+        this.setbank = new ArrayList<>();
+        this.areabank = new Hashtable<>();
+        this.scenebank = new ArrayList<>();
 //        this.rolebank = new ArrayList<Role>();
 //        this.extrabank = new ArrayList<Role>();
     }
@@ -52,7 +54,7 @@ class SetupManager {
         ArrayList<Integer> turnNo = new ArrayList<>();
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
-            players[i].currentArea = areabank.get(0);
+            players[i].currentArea = areabank.get("Trailer");
             turnNo.add(i);
         }
         Collections.shuffle(turnNo);
@@ -86,12 +88,22 @@ class SetupManager {
 //            ParseXML.parseRoleDataTo(document, extrabank, "extrabank");
 //            ParseXML.parseSceneDataTo(document, scenebank, rolebank);
 //            ParseXML.parseSetDataTo(document, setbank, scenebank, extrabank);
+
+
          
          }catch (Exception e){
          
             System.out.println("Error = "+e);
          
          }
+        Enumeration<String> keys = areabank.keys();
+        while (keys.hasMoreElements()) {
+            IArea area = areabank.get(keys.nextElement());
+            System.out.println(areabank.get("Trailer"));
+            for (int i = 0; i < area.defaultNeighbors.size(); i++) {
+                area.connectedAreas.add(areabank.get(area.defaultNeighbors.get(i)));
+            }
+        }
 
 //        testScene = scenebank.get(0);
 //

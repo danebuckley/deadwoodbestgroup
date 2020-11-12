@@ -9,14 +9,14 @@ import java.util.Random;
 
 public class Set implements IArea {
     String name;
-    ArrayList<String> defaultNeighbors = null;
+    ArrayList<String> defaultNeighbors;
     private Rectangle area;
     private ArrayList<Integer> takeNums;
     private ArrayList<Rectangle> takeAreas;
     private ArrayList<Role> extraRoles;
     private int maxShots;
 
-    ArrayList<IArea> connectedAreas = null;
+    ArrayList<IArea> connectedAreas;
 
     private Scene scene;
     private int shotCounters;
@@ -30,7 +30,7 @@ public class Set implements IArea {
         this.takeAreas = takeAreas;
         this.extraRoles = parts;
         this.maxShots = takeNums.size();
-
+        this.connectedAreas = new ArrayList<>();
         this.shotCounters = 0;
         this.players = new ArrayList<Player>();
     }

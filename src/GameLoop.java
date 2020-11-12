@@ -158,7 +158,7 @@ class GameLoop {
         if (!"Trailer".equals(curArea.name)) {
             actions.add("Move");
         }
-        if (!"Office".equals(curArea.name)) {
+        else if (!"Office".equals(curArea.name)) {
             actions.add("Move");
             actions.add("Upgrade");
         }
