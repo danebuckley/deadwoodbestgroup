@@ -1,6 +1,7 @@
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.Set;
 
 import org.w3c.dom.Document;
 
@@ -11,6 +12,7 @@ class SetupManager {
     private ArrayList<Set> setbank;
     private Hashtable<String, IArea> areabank;
     private ArrayList<Scene> scenebank;
+    private Integer[] sceneOrder = new Integer[40];
 //    private ArrayList<Role> rolebank;
 //    private ArrayList<Role> extrabank;
 
@@ -27,9 +29,14 @@ class SetupManager {
     }
 
     void initializeGame() {
+        for (int i = 1; i < 41; i++) {
+            sceneOrder[i] = i;
+        }
+        List<Integer> intList = Arrays.asList(sceneOrder);
+        Collections.shuffle(intList);
         constructPieces();
         resetPlayers();
-        resetScenes();
+        distributeScenes(intList);
     }
 
 
@@ -39,9 +46,10 @@ class SetupManager {
 
     }
 
-    private void resetScenes() {
-
+    private void distributeScenes(List<Integer> intList) {
+        
     }
+
 
 
     // Initialization
@@ -52,7 +60,7 @@ class SetupManager {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
-            players[i].currentArea = areabank.get("Trailer");
+            players[i].currentArea = areabank.get("Hotel");
             System.out.println("Please enter Player " + (i+1) + "'s name:");
             String name = scanner.next();
             players[i].name = name;
@@ -100,7 +108,6 @@ class SetupManager {
         Enumeration<String> keys = areabank.keys();
         while (keys.hasMoreElements()) {
             IArea area = areabank.get(keys.nextElement());
-            System.out.println(area.defaultNeighbors.isEmpty());
             for (int i = 0; i < area.defaultNeighbors.size(); i++) {
                 area.connectedAreas.add(areabank.get(area.defaultNeighbors.get(i)));
             }

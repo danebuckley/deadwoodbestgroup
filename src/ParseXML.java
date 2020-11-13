@@ -64,7 +64,7 @@ public class ParseXML{
       } // Card
    }
 
-   public static void parseBoard(Document d, ArrayList<Set> setbank, Hashtable<String, IArea> areabank) {
+   public static void parseBoard(Document d, ArrayList setbank, Hashtable<String, IArea> areabank) {
       Element root = d.getDocumentElement();
       NodeList elements = root.getChildNodes();
       for (int i = 0; i < elements.getLength(); i++) {

@@ -136,6 +136,8 @@ class GameLoop {
 
     private void chooseRehearse(Player player) {
         print("Rehearsing...");
+        player.practiceTokens = player.practiceTokens + 1;
+        print("You have gained a practice token! " + player.name + " now has " + player.practiceTokens + " practice tokens!");
     }
 
     private void chooseUpgrade(Player player) throws IOException {

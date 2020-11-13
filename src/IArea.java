@@ -8,5 +8,4 @@ public interface IArea {
     ArrayList<IArea> connectedAreas = new ArrayList<>();
     Rectangle area = null;
     ArrayList<Player> playerList = new ArrayList<>();
-
 }
