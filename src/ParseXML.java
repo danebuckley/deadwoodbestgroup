@@ -120,11 +120,11 @@ public class ParseXML{
             parseArea(officeElement, officeArea);
          }
          else if ("upgrade".equals(officeElement.getNodeName())) {
-
+            parseUpgrades(officeElement, officeUpgrades);
          }
       }
 
-      areabank.put("Office", new Office(officeNeighbors, officeArea));
+      areabank.put("Office", new Office(officeNeighbors, officeArea, officeUpgrades));
    }
 
    private static void parseSet(Node rootElement, ArrayList<Set> setbank, Hashtable<String, IArea> areabank) {
@@ -149,8 +149,8 @@ public class ParseXML{
          else if ("takes".equals(setElement.getNodeName())) {
             parseTakes(setElement, setTakeNums, setTakeAreas);
          }
-         else if ("part".equals(setElement.getNodeName())) {
-            parseRole(setElement, setParts);
+         else if ("parts".equals(setElement.getNodeName())) {
+            parseRoles(setElement, setParts);
          }
       }
 
@@ -197,6 +197,16 @@ public class ParseXML{
             takeAreas.add(takeArea);
          }
 
+      }
+   }
+
+   private static void parseRoles(Node rootElement, ArrayList<Role> finalRoles) {
+      NodeList roles = rootElement.getChildNodes();
+      for (int k = 0; k < roles.getLength(); k++) {
+         Node neighbor = roles.item(k);
+         if ("part".equals(neighbor.getNodeName())) {
+            parseRole(neighbor, finalRoles);
+         }
       }
    }
 

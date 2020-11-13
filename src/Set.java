@@ -7,20 +7,20 @@ import java.util.Random;
 
 // NOTE: sets function in a sort of linked-list fashion; there is no map of sets, as they can be accessed through one another.
 
-public class Set implements IArea {
-    String name;
-    ArrayList<String> defaultNeighbors;
-    private Rectangle area;
+public class Set extends IArea {
+   // String name;
+   // ArrayList<String> defaultNeighbors;
+   // private Rectangle area;
     private ArrayList<Integer> takeNums;
     private ArrayList<Rectangle> takeAreas;
     private ArrayList<Role> extraRoles;
     private int maxShots;
 
-    ArrayList<IArea> connectedAreas;
+   // ArrayList<IArea> connectedAreas;
 
     private Scene scene;
     private int shotCounters;
-    ArrayList<Player> players;
+    // ArrayList<Player> players;
 
     Set (String name, ArrayList<String> neighborStrings, Rectangle area, ArrayList<Integer> takeNums, ArrayList<Rectangle> takeAreas, ArrayList<Role> parts) {
         this.name = name;
@@ -32,7 +32,7 @@ public class Set implements IArea {
         this.maxShots = takeNums.size();
         this.connectedAreas = new ArrayList<>();
         this.shotCounters = 0;
-        this.players = new ArrayList<Player>();
+        this.playerList = new ArrayList<Player>();
     }
 
     void setScene(Scene scene) {
@@ -54,7 +54,7 @@ public class Set implements IArea {
     }
 
     public void addPlayer(Player player) {
-        players.add(player);
+        playerList.add(player);
     }
 
     public void payOut(Player player, int budget, int numRoles, int pos) { //ASSUMES PLAYER IS ON SCENE AND NOT EXTRA ROLE, does not include bonuses
@@ -72,6 +72,7 @@ public class Set implements IArea {
         ArrayList<Integer> diceRoll = handleDice(player, 1);
         if (diceRoll.get(0) > budget) {
             player.credits = player.credits + 2;
+            //remove one from shot counter
             return true;
         } else {
             return false;

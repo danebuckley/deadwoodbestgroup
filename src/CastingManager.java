@@ -9,8 +9,29 @@ public class CastingManager {
     private int[] dollarPrices = {4, 10, 18, 28, 40};
     private int[] creditPrices = {5, 10, 15, 20, 25};
 
-    void setRankOf(Player player, int rank) {
-        player.rank = rank;
+    void setRankOf(Player player, int rank) { //dollars OR credits
+        switch (rank) {
+            case 2: player.dollars -= 4;
+                    player.credits -= 5;
+                    player.rank = rank;
+                    break;
+            case 3: player.dollars -= 10;
+                    player.credits -= 10;
+                    player.rank = rank;
+                    break;
+            case 4: player.dollars -= 18;
+                    player.credits -= 15;
+                    player.rank = rank;
+                    break;
+            case 5: player.dollars -= 28;
+                    player.credits -= 20;
+                    player.rank = rank;
+                    break;
+            case 6: player.dollars -= 40;
+                    player.credits -= 25;
+                    player.rank = rank;
+                    break;
+        }
     }
 
     int[] getRankOptions(Player player) {

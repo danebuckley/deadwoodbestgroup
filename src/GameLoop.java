@@ -130,8 +130,15 @@ class GameLoop {
     }
 
     private void chooseAct(Player player) {
-        SetupManager setup = new SetupManager();
+        Set setup = null;
+        int budget = 5;//budget of scene that player is on
         print("Acting...");
+        boolean result = setup.act(player, budget);
+        if (result) {
+            System.out.println("Success! You have removed 1 shot counter.");
+        } else {
+            System.out.println("You failed :( Try again next turn.");
+        }
     }
 
     private void chooseRehearse(Player player) {
@@ -163,15 +170,15 @@ class GameLoop {
         ArrayList<String> actions = new ArrayList<>();
 
         IArea curArea = player.currentArea;
-        if (!"Trailer".equals(curArea.name)) {
+        String name = curArea.name;
+        if ((curArea.name).equals("Trailer")) {
             actions.add("Move");
         }
-        else if (!"Office".equals(curArea.name)) {
+        else if ((curArea.name).equals("Office")) {
             actions.add("Move");
             actions.add("Upgrade");
         }
         else {
-
             if (!player.working) {
                 actions.add("Move");
                 actions.add("Choose Role");

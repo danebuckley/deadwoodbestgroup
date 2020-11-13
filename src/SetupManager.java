@@ -29,8 +29,8 @@ class SetupManager {
     }
 
     void initializeGame() {
-        for (int i = 1; i < 41; i++) {
-            sceneOrder[i] = i;
+        for (int i = 0; i < 40; i++) {
+            sceneOrder[i] = i+1;
         }
         List<Integer> intList = Arrays.asList(sceneOrder);
         Collections.shuffle(intList);
@@ -47,7 +47,7 @@ class SetupManager {
     }
 
     private void distributeScenes(List<Integer> intList) {
-        
+
     }
 
 
@@ -60,7 +60,7 @@ class SetupManager {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
-            players[i].currentArea = areabank.get("Hotel");
+            players[i].currentArea = areabank.get("Trailer");
             System.out.println("Please enter Player " + (i+1) + "'s name:");
             String name = scanner.next();
             players[i].name = name;

@@ -1,4 +1,5 @@
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,7 +41,7 @@ class UI {
 
     public UIAction handlePlayerAction(String descriptor, String[] options) throws IOException {
         String action = prompt(descriptor, options);
-        return new UIAction(action);
+        return new UIAction(action, findIndex(options, action));
     }
 
 
@@ -59,8 +60,24 @@ class UI {
 
     }
 
-
     // Utility
+    public static int findIndex(String arr[], String t)
+    {
+        if (arr == null) {
+            return -1;
+        }
+        int len = arr.length;
+        int i = 0;
+        while (i < len) {
+            if (arr[i].equals(t)) {
+                return i;
+            }
+            else {
+                i = i + 1;
+            }
+        }
+        return -1;
+    }
 
     private static boolean isInt(String strNum) {
         if (strNum == null) {

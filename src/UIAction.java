@@ -6,14 +6,6 @@ class UIAction {
     String type;
     int index;
 
-    UIAction(String type) {
-        this.type = type;
-    }
-
-    UIAction(int index) {
-        this.index = index;
-    }
-
     UIAction(String type, int index) {
         this.type = type;
         this.index = index;
