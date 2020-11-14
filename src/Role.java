@@ -6,13 +6,15 @@ public class Role {
     String name; // name!
     private String line; // description!
     private int rank; // rank!
+    boolean isExtra;
     Rectangle area;
 
-    Role(String name, String line, int level, Rectangle area) {
+    Role(String name, String line, int level, Rectangle area, boolean isExtra) {
         this.name = name;
         this.line = line;
         this.rank = level;
         this.area = area;
+        this.isExtra = isExtra;
     }
 
     public int getRank() {

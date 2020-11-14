@@ -7,7 +7,7 @@ public class SetManager {
     int wrapCount;
 
     void assignRoleTo(Player player, Role role) {
-
+        player.role = role;
     }
 
     private Role[] getRoles(Set set) {

@@ -82,6 +82,7 @@ class GameLoop {
             turnLoop();
             if (setManager.wrapCount == 9) {
                 dayOver = true;
+                setupManager.resetPlayers(players);
             }
         }
     }
@@ -130,12 +131,17 @@ class GameLoop {
     }
 
     private void chooseAct(Player player) {
-        Set setup = null;
-        int budget = 5;//budget of scene that player is on
+        Set currentSet = ((Set) player.currentArea);
+        int budget = currentSet.getScene().budget;
         print("Acting...");
-        boolean result = setup.act(player, budget);
+        boolean result = currentSet.act(player, budget);
         if (result) {
             System.out.println("Success! You have removed 1 shot counter.");
+            currentSet.addShot();
+            if (currentSet.getMaxShots() == currentSet.getShot()) {
+                setManager.itsAWrap(player);
+                currentSet.resetShots();
+            }
         } else {
             System.out.println("You failed :( Try again next turn.");
         }
