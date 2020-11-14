@@ -95,7 +95,7 @@ public class Set extends IArea {
 
     public boolean act(Player player, int budget) { //currently assumes that the player on the card        
         ArrayList<Integer> diceRoll = handleDice(player, 1);
-        if (diceRoll.get(0) > budget) {
+        if (diceRoll.get(0) >= budget) {
             if (player.role.isExtra) {
                 player.addDollars(1);
                 player.addCredits(1);
@@ -116,7 +116,7 @@ public class Set extends IArea {
         ArrayList<Integer> diceRoll = new ArrayList<>();
         for (int i = 0; i < numDice; i++) {
             Random random = new Random();
-            int currentRand = random.nextInt(6) + 1;
+            int currentRand = random.nextInt(100) + 1;
             diceRoll.add(currentRand);
         }
         bubbleSort(diceRoll);
