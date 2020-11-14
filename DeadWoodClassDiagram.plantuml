@@ -1,0 +1,39 @@
+@startuml
+
+GameLoop <|-- SetupManager
+GameLoop <|-- SetManager
+GameLoop <|-- MoveManager
+GameLoop <|-- ScoringManager
+GameLoop <|-- CastingManager
+GameLoop <|-- UI
+GameLoop <|-- Player
+
+SetupManager <|-- ParseXML
+SetupManager <|-- Set
+SetupManager <|-- Room
+SetupManager <|-- Scene
+SetupManager <|-- Player
+SetupManager <|-- SetManager
+
+SetManager <|-- Set
+' SetManager <|-- Player
+SetManager <|-- Role
+
+' MoveManager <|-- Player
+MoveManager <|-- Room
+
+' CastingManager <|-- Player
+
+' ScoringManager <|-- Player
+
+Set <|-- Scene
+Set <|-- Role
+
+Scene <|-- Role
+
+Set <|-- Room
+Office <|-- Room
+Trailer <|-- Room
+
+
+@enduml
