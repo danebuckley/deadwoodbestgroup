@@ -1,7 +1,6 @@
 
 import java.lang.reflect.Array;
 import java.util.*;
-import java.util.Set;
 
 import org.w3c.dom.Document;
 
@@ -12,11 +11,11 @@ class SetupManager {
     private ArrayList<Set> setbank;
     private Hashtable<String, IArea> areabank;
     private ArrayList<Scene> scenebank;
-    private Integer[] sceneOrder = new Integer[40];
+    private ArrayList<Integer> sceneOrder = new ArrayList<>();
 //    private ArrayList<Role> rolebank;
 //    private ArrayList<Role> extrabank;
 
-    private Set testSet;
+
     private Scene testScene;
 
 
@@ -30,26 +29,30 @@ class SetupManager {
 
     void initializeGame() {
         for (int i = 0; i < 40; i++) {
-            sceneOrder[i] = i+1;
+            sceneOrder.add(i+1);
         }
-        List<Integer> intList = Arrays.asList(sceneOrder);
-        Collections.shuffle(intList);
+        Collections.shuffle(sceneOrder);
         constructPieces();
-        resetPlayers();
-        distributeScenes(intList);
+        distributeScenes(sceneOrder);
     }
 
 
     // Reseters-- for each game played on the same board.
 
-    private void resetPlayers() {
-
+    public void resetPlayers(Player[] players) {
+        for (int i = 0; i < players.length; i++) {
+            players[i].currentArea = areabank.get("Trailer");
+        }
     }
 
-    private void distributeScenes(List<Integer> intList) {
-
+    private void distributeScenes(ArrayList<Integer> sceneOrder) {
+        for (int i = 0; i < 10; i++) {
+            setbank.get(i).setScene(scenebank.get(sceneOrder.get(i)));
+        }
+        for (int i = 0; i < 10; i++) {
+            sceneOrder.remove(0);
+        }
     }
-
 
 
     // Initialization

@@ -9,7 +9,9 @@ public class Player {
     int dollars; // dollars!
     int credits; // credits!
     int turnNo; // Felt cute, might delete later.
-    String scene = ""; //this will hold the key of the area, or maybe the scene im not sure yet
+    String scene = "";
+    Role role;
+    Role extraRole;
 
     IArea currentArea; // The set the player is on.
     boolean working = false;

@@ -33,15 +33,32 @@ public class Set extends IArea {
         this.connectedAreas = new ArrayList<>();
         this.shotCounters = 0;
         this.playerList = new ArrayList<Player>();
-    }
 
-    void setScene(Scene scene) {
+    }
+    public void setScene(Scene scene) {
         this.scene = scene;
     }
 
     public Scene getScene() {
         return this.scene;
     }
+
+    public void addShot() {
+        this.shotCounters += 1;
+    }
+
+    public int getShot() {
+        return shotCounters;
+    }
+
+    public int getMaxShots() {
+        return maxShots;
+    }
+
+    public void resetShots() {
+        this.shotCounters = 0;
+    }
+
 
     Role[] getRoles() {
         Role[] sceneRoles = scene.getRoles();
@@ -72,15 +89,10 @@ public class Set extends IArea {
         ArrayList<Integer> diceRoll = handleDice(player, 1);
         if (diceRoll.get(0) > budget) {
             player.credits = player.credits + 2;
-            //remove one from shot counter
             return true;
         } else {
             return false;
         }
-    }
-
-    public void rehearse(Player player) { //on scene completion the players practice tokens need to be reset
-        player.practiceTokens = player.practiceTokens + 1;
     }
 
     public ArrayList<Integer> handleDice(Player player, int numDice) {
