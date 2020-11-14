@@ -1,11 +1,11 @@
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Trailer extends IArea {
+public class Trailer extends Room {
 
    // String name;
     //ArrayList<String> defaultNeighbors;
-    //ArrayList<IArea> connectedAreas = new ArrayList<>();
+    //ArrayList<Room> connectedAreas = new ArrayList<>();
     //Rectangle area;
     //ArrayList<Player> playerList = new ArrayList<>();
 

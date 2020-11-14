@@ -1,5 +1,4 @@
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 import org.w3c.dom.Document;
@@ -9,7 +8,7 @@ import org.w3c.dom.Document;
 class SetupManager {
 
     private ArrayList<Set> setbank;
-    private Hashtable<String, IArea> areabank;
+    private Hashtable<String, Room> areabank;
     private ArrayList<Scene> scenebank;
     private ArrayList<Integer> sceneOrder = new ArrayList<>();
 
@@ -88,7 +87,7 @@ class SetupManager {
          }
         Enumeration<String> keys = areabank.keys();
         while (keys.hasMoreElements()) {
-            IArea area = areabank.get(keys.nextElement());
+            Room area = areabank.get(keys.nextElement());
             for (int i = 0; i < area.defaultNeighbors.size(); i++) {
                 area.connectedAreas.add(areabank.get(area.defaultNeighbors.get(i)));
             }

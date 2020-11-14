@@ -12,7 +12,7 @@ public class Player {
     String scene = "";
     Role role = null;
 
-    IArea currentArea; // The set the player is on.
+    Room currentArea; // The set the player is on.
     boolean working = false;
     boolean hasMoved = false;
     boolean hasWorked = false;

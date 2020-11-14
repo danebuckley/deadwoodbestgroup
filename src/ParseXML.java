@@ -64,7 +64,7 @@ public class ParseXML{
       } // Card
    }
 
-   public static void parseBoard(Document d, ArrayList setbank, Hashtable<String, IArea> areabank) {
+   public static void parseBoard(Document d, ArrayList setbank, Hashtable<String, Room> areabank) {
       Element root = d.getDocumentElement();
       NodeList elements = root.getChildNodes();
       for (int i = 0; i < elements.getLength(); i++) {
@@ -83,7 +83,7 @@ public class ParseXML{
       } // Card
    }
 
-   private static void parseTrailer(Node rootElement, Hashtable<String, IArea> areabank) {
+   private static void parseTrailer(Node rootElement, Hashtable<String, Room> areabank) {
 
       ArrayList<String> trailerNeighbors = new ArrayList<>();
       Rectangle trailerArea = new Rectangle();
@@ -103,7 +103,7 @@ public class ParseXML{
       areabank.put("trailer", new Trailer(trailerNeighbors, trailerArea));
    }
 
-   private static void parseOffice(Node rootElement, Hashtable<String, IArea> areabank) {
+   private static void parseOffice(Node rootElement, Hashtable<String, Room> areabank) {
 
       ArrayList<String> officeNeighbors = new ArrayList<>();
       Rectangle officeArea = new Rectangle();
@@ -127,7 +127,7 @@ public class ParseXML{
       areabank.put("office", new Office(officeNeighbors, officeArea, officeUpgrades));
    }
 
-   private static void parseSet(Node rootElement, ArrayList<Set> setbank, Hashtable<String, IArea> areabank) {
+   private static void parseSet(Node rootElement, ArrayList<Set> setbank, Hashtable<String, Room> areabank) {
 
       String setName = parseStringAttribute(rootElement, "name");
       ArrayList<String> setNeighborStrings = new ArrayList<>();

@@ -1,13 +1,12 @@
 
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 // NOTE: sets function in a sort of linked-list fashion; there is no map of sets, as they can be accessed through one another.
 
-public class Set extends IArea {
+public class Set extends Room {
     private ArrayList<Integer> takeNums;
     private ArrayList<Rectangle> takeAreas;
     private ArrayList<Role> extraRoles;

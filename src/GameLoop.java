@@ -122,7 +122,7 @@ class GameLoop {
 
     private void chooseMove(Player player) throws IOException {
         print("\nMoving...");
-        IArea[] areas = moveManager.getMoveOptions(player);
+        Room[] areas = moveManager.getMoveOptions(player);
         String[] options = moveManager.areasAsStrings(areas);
         UIAction action = ui.handlePlayerAction("Move", options);
         if (areas.length > 0) {
@@ -190,7 +190,7 @@ class GameLoop {
     private String[] getActionsOf(Player player) {
         ArrayList<String> actions = new ArrayList<>();
 
-        IArea curArea = player.currentArea;
+        Room curArea = player.currentArea;
         String name = curArea.name;
         if ((curArea.name).equals("trailer")) {
             if (!player.hasMoved) {
