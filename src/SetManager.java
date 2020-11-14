@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 // The ideal place for digging into scenes and roles that have been assigned to a set. (probably)
 // This class debatably has the most expansive job in our program.
@@ -8,6 +9,8 @@ public class SetManager {
 
     void assignRoleTo(Player player, Role role) {
         player.role = role;
+        player.working = true;
+        role.chosen = true;
     }
 
     private Role[] getRoles(Set set) {
@@ -33,7 +36,27 @@ public class SetManager {
     // Utilities
 
     Role[] getRoleOptions(Player player) {
-        return getRoles((Set)player.currentArea);
+        Set currSet = (Set) player.currentArea;
+        Role[] allRoles = getRoles(currSet);
+
+        ArrayList<Role> takenRoles = new ArrayList<>();
+        ArrayList<Player> players = new ArrayList<>();
+        for (int i = 0; i < players.size(); i++) {
+            Role role = players.get(i).role;
+            if (role != null) {
+                takenRoles.add(role);
+            }
+        }
+
+        ArrayList<Role> availRoles = new ArrayList<>();
+        for (int i = 0;  i < allRoles.length; i++) {
+            Role role = allRoles[i];
+            if (!takenRoles.contains(role)) {
+                availRoles.add(role);
+            }
+        }
+        
+        return availRoles.toArray(new Role[availRoles.size()]);
     }
 
     String[] rolesAsStrings(Role[] roles) {

@@ -10,11 +10,13 @@ public class Player {
     int credits; // credits!
     int turnNo; // Felt cute, might delete later.
     String scene = "";
-    Role role;
-    Role extraRole;
+    Role role = null;
 
     IArea currentArea; // The set the player is on.
     boolean working = false;
+    boolean hasMoved = false;
+    boolean hasWorked = false;
+    boolean hasUpgraded = false;
 
     Player(String name) {
         this.name = name;

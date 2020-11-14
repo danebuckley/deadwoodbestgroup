@@ -29,7 +29,7 @@ class SetupManager {
 
     void initializeGame() {
         for (int i = 0; i < 40; i++) {
-            sceneOrder.add(i+1);
+            sceneOrder.add(i);
         }
         Collections.shuffle(sceneOrder);
         constructPieces();

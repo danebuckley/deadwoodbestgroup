@@ -7,6 +7,7 @@ public class Role {
     private String line; // description!
     private int rank; // rank!
     boolean isExtra;
+    boolean chosen = false;
     Rectangle area;
 
     Role(String name, String line, int level, Rectangle area, boolean isExtra) {

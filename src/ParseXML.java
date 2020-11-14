@@ -55,7 +55,7 @@ public class ParseXML{
                sceneDesc = cardElement.getTextContent();
             }
             else if ("part".equals(cardElement.getNodeName())) {
-               parseRole(cardElement, sceneParts);
+               parseRole(cardElement, sceneParts, false);
             } // Scene vs Part
          } // Card Contents
 
@@ -150,7 +150,7 @@ public class ParseXML{
             parseTakes(setElement, setTakeNums, setTakeAreas);
          }
          else if ("parts".equals(setElement.getNodeName())) {
-            parseRoles(setElement, setParts);
+            parseRoles(setElement, setParts, true);
          }
       }
 
@@ -200,17 +200,17 @@ public class ParseXML{
       }
    }
 
-   private static void parseRoles(Node rootElement, ArrayList<Role> finalRoles) {
+   private static void parseRoles(Node rootElement, ArrayList<Role> finalRoles, boolean isExtra) {
       NodeList roles = rootElement.getChildNodes();
       for (int k = 0; k < roles.getLength(); k++) {
          Node neighbor = roles.item(k);
          if ("part".equals(neighbor.getNodeName())) {
-            parseRole(neighbor, finalRoles);
+            parseRole(neighbor, finalRoles, isExtra);
          }
       }
    }
 
-   private static void parseRole(Node rootElement, ArrayList<Role> parts) {
+   private static void parseRole(Node rootElement, ArrayList<Role> parts, boolean isExtra) {
 
       String partName = parseStringAttribute(rootElement, "name");
       int partLevel = parseIntegerAttribute(rootElement, "level");
@@ -229,7 +229,7 @@ public class ParseXML{
          }
       }
 
-      parts.add(new Role(partName, partLine, partLevel, partArea));
+      parts.add(new Role(partName, partLine, partLevel, partArea, isExtra));
    }
 
    private static void parseArea(Node rootElement, Rectangle area) {

@@ -90,12 +90,19 @@ class GameLoop {
 
     private void turnLoop() throws IOException {
         turnOver = false;
+
+        Player player = players[currPlayer];
+
+        player.hasMoved = false;
+        player.hasWorked = false;
+        player.hasUpgraded = false;
+
         System.out.println(players[currPlayer].name + "'s turn:");
         while (!turnOver) {
             print("\nPicking Action...");
-            String[] actionStrings = getActionsOf(players[currPlayer]);
+
+            String[] actionStrings = getActionsOf(player);
             UIAction action = ui.handlePlayerAction("Action", actionStrings);
-            Player player = players[currPlayer];
             switch (action.type) {
                 case "Move": chooseMove(player); break;
                 case "Choose Role": chooseRole(player); break;
@@ -118,6 +125,7 @@ class GameLoop {
         if (areas.length > 0) {
             moveManager.move(player, areas[action.index]);
         }
+        player.hasMoved = true;
     }
 
     private void chooseRole(Player player) throws IOException {
@@ -145,12 +153,14 @@ class GameLoop {
         } else {
             System.out.println("You failed :( Try again next turn.");
         }
+        player.hasWorked = true;
     }
 
     private void chooseRehearse(Player player) {
         print("Rehearsing...");
         player.practiceTokens = player.practiceTokens + 1;
         print("You have gained a practice token! " + player.name + " now has " + player.practiceTokens + " practice tokens!");
+        player.hasWorked = true;
     }
 
     private void chooseUpgrade(Player player) throws IOException {
@@ -161,6 +171,7 @@ class GameLoop {
         if (ranks.length > 0) {
             castingManager.setRankOf(player, ranks[action.index]);
         }
+        player.hasUpgraded = true;
     }
 
     private void chooseEndTurn() {
@@ -178,18 +189,26 @@ class GameLoop {
         IArea curArea = player.currentArea;
         String name = curArea.name;
         if ((curArea.name).equals("Trailer")) {
-            actions.add("Move");
+            if (!player.hasMoved) {
+                actions.add("Move");
+            }
         }
         else if ((curArea.name).equals("Office")) {
-            actions.add("Move");
-            actions.add("Upgrade");
+            if (!player.hasMoved) {
+                actions.add("Move");
+            }
+            if (!player.hasUpgraded) {
+                actions.add("Upgrade");
+            }
         }
         else {
             if (!player.working) {
-                actions.add("Move");
+                if (!player.hasMoved) {
+                    actions.add("Move");
+                }
                 actions.add("Choose Role");
             }
-            else {
+            else if (!player.hasWorked) {
                 actions.add("Act");
                 actions.add("Rehearse");
             }

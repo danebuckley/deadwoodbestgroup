@@ -76,21 +76,38 @@ public class Set extends IArea {
 
     public void payOut(Player player, int budget, int numRoles, int pos) { //ASSUMES PLAYER IS ON SCENE AND NOT EXTRA ROLE, does not include bonuses
         ArrayList<Integer> diceRoll = handleDice(player, budget);
-        for (int i = (pos - 1); i < diceRoll.size(); i = i + numRoles) {
-            try {
-                player.dollars = player.dollars + diceRoll.get(i);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                return;
+        if (player.role.isExtra) {
+            player.addDollars(player.role.getRank());
+        }
+        else {
+            for (int i = (pos - 1); i < diceRoll.size(); i = i + numRoles) {
+                try {
+                    player.dollars = player.dollars + diceRoll.get(i);
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    return;
+                }
             }
         }
+        player.role = null;
+        player.working = false;
+        player.role.chosen = false;
     }
 
-    public boolean act(Player player, int budget) { //currently assumes that the player on the card
+    public boolean act(Player player, int budget) { //currently assumes that the player on the card        
         ArrayList<Integer> diceRoll = handleDice(player, 1);
         if (diceRoll.get(0) > budget) {
-            player.credits = player.credits + 2;
+            if (player.role.isExtra) {
+                player.addDollars(1);
+                player.addCredits(1);
+            }
+            else {
+                player.addCredits(2);
+            }
             return true;
         } else {
+            if (player.role.isExtra) {
+                player.addDollars(1);
+            }
             return false;
         }
     }
