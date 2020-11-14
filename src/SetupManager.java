@@ -41,7 +41,7 @@ class SetupManager {
 
     public void resetPlayers(Player[] players) {
         for (int i = 0; i < players.length; i++) {
-            players[i].currentArea = areabank.get("Trailer");
+            players[i].currentArea = areabank.get("trailer");
         }
     }
 
@@ -63,7 +63,7 @@ class SetupManager {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
-            players[i].currentArea = areabank.get("Trailer");
+            players[i].currentArea = areabank.get("trailer");
             System.out.println("Please enter Player " + (i+1) + "'s name:");
             String name = scanner.next();
             players[i].name = name;
@@ -115,7 +115,7 @@ class SetupManager {
                 area.connectedAreas.add(areabank.get(area.defaultNeighbors.get(i)));
             }
         }
-
+        int somethingorotheriguess = 1;
 //        testScene = scenebank.get(0);
 //
 //        testSet = setbank.get(0);

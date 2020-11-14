@@ -100,7 +100,7 @@ public class ParseXML{
          }
       }
 
-      areabank.put("Trailer", new Trailer(trailerNeighbors, trailerArea));
+      areabank.put("trailer", new Trailer(trailerNeighbors, trailerArea));
    }
 
    private static void parseOffice(Node rootElement, Hashtable<String, IArea> areabank) {
@@ -124,7 +124,7 @@ public class ParseXML{
          }
       }
 
-      areabank.put("Office", new Office(officeNeighbors, officeArea, officeUpgrades));
+      areabank.put("office", new Office(officeNeighbors, officeArea, officeUpgrades));
    }
 
    private static void parseSet(Node rootElement, ArrayList<Set> setbank, Hashtable<String, IArea> areabank) {

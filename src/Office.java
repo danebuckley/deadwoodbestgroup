@@ -10,7 +10,7 @@ public class Office extends IArea {
     //Rectangle area;
 
     public Office(ArrayList<String> defaultNeighbors, Rectangle area, ArrayList<Upgrade> upgrades) {
-        this.name = "Office";
+        this.name = "office";
         this.defaultNeighbors = defaultNeighbors;
         this.area = area;
     }

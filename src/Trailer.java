@@ -13,6 +13,6 @@ public class Trailer extends IArea {
     public Trailer(ArrayList<String> defaultNeighbors, Rectangle area) {
         this.defaultNeighbors = defaultNeighbors;
         this.area = area;
-        this.name = "Trailer";
+        this.name = "trailer";
     }
 }

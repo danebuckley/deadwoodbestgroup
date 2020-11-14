@@ -9,9 +9,13 @@ public class SetManager {
     int wrapCount;
 
     void assignRoleTo(Player player, Role role) {
-        player.role = role;
+        if (player.rank >= role.getRank()) {
+            player.role = role;
         player.working = true;
         role.chosen = true;
+    } else {
+            System.out.println("You do not have the rank for this role!");
+        }
     }
 
     private Role[] getRoles(Set set) {
@@ -22,10 +26,17 @@ public class SetManager {
 
     // Scoring and Resetting
 
-    public void itsAWrap(Player player) {
-        //payout
-        player.working = false;
-        player.practiceTokens = 0;
+    public void itsAWrap(Set currentSet) {
+
+        for (int i = 0; i < currentSet.playerList.size(); i++) {
+            Player player = currentSet.playerList.get(i);
+            Scene scene = currentSet.getScene();
+            ArrayList<Role> roles = new ArrayList<>(Arrays.asList(scene.getRoles()));
+            int pos = roles.indexOf(player.role);
+            currentSet.payOut(player, scene.budget, currentSet.getRoles().length, pos);
+            player.working = false;
+            player.practiceTokens = 0;
+        }
         wrapCount++;
     }
 

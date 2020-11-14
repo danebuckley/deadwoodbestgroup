@@ -147,8 +147,9 @@ class GameLoop {
             System.out.println("Success! You have removed 1 shot counter.");
             currentSet.addShot();
             if (currentSet.getMaxShots() == currentSet.getShot()) {
-                setManager.itsAWrap(player);
+                setManager.itsAWrap(currentSet);
                 currentSet.resetShots();
+                System.out.print("That's a wrap! You've completed the scene.");
             }
         } else {
             System.out.println("You failed :( Try again next turn.");
@@ -188,12 +189,12 @@ class GameLoop {
 
         IArea curArea = player.currentArea;
         String name = curArea.name;
-        if ((curArea.name).equals("Trailer")) {
+        if ((curArea.name).equals("trailer")) {
             if (!player.hasMoved) {
                 actions.add("Move");
             }
         }
-        else if ((curArea.name).equals("Office")) {
+        else if ((curArea.name).equals("office")) {
             if (!player.hasMoved) {
                 actions.add("Move");
             }
