@@ -12,12 +12,6 @@ class SetupManager {
     private Hashtable<String, IArea> areabank;
     private ArrayList<Scene> scenebank;
     private ArrayList<Integer> sceneOrder = new ArrayList<>();
-//    private ArrayList<Role> rolebank;
-//    private ArrayList<Role> extrabank;
-
-
-    private Scene testScene;
-
 
     public SetupManager() {
         this.setbank = new ArrayList<>();
@@ -79,18 +73,6 @@ class SetupManager {
     }
 
     public void constructPieces() {
-        // roleBank = new ArrayList<Role>();
-        // roleBank.add(new Role("Pied Piper", "I like to eat pies while fixing pipes.", 3));
-
-        // sceneBank = new ArrayList<Scene>();
-        // sceneBank.add(new Scene("Pie Time", "So many pies! XD", roleBank));
-
-        // extraRoleBank = new ArrayList<Role>();
-        // extraRoleBank.add(new Role("Bunny", "I also like pies :3", 3));
-
-        // setBank = new ArrayList<Set>();
-        // setBank.add(new Set("The Forest", extraRoleBank));
-
         try{
       
             Document testDoc = ParseXML.getDocFromFile("src/XMLTestFile.xml");
@@ -98,13 +80,7 @@ class SetupManager {
             Document boardDoc = ParseXML.getDocFromFile("src/board.xml");
             ParseXML.parseSceneCards(cardDoc, scenebank);
             ParseXML.parseBoard(boardDoc, setbank, areabank);
-//            ParseXML.parseRoleDataTo(document, rolebank, "rolebank");
-//            ParseXML.parseRoleDataTo(document, extrabank, "extrabank");
-//            ParseXML.parseSceneDataTo(document, scenebank, rolebank);
-//            ParseXML.parseSetDataTo(document, setbank, scenebank, extrabank);
 
-
-         
          }catch (Exception e){
          
             System.out.println("Error = "+e);
@@ -117,11 +93,5 @@ class SetupManager {
                 area.connectedAreas.add(areabank.get(area.defaultNeighbors.get(i)));
             }
         }
-        int somethingorotheriguess = 1;
-//        testScene = scenebank.get(0);
-//
-//        testSet = setbank.get(0);
-//        testSet.connectedSets = setbank;
-//        testSet.setScene(testScene);
     }
 }

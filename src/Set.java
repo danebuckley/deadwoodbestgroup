@@ -8,19 +8,13 @@ import java.util.Random;
 // NOTE: sets function in a sort of linked-list fashion; there is no map of sets, as they can be accessed through one another.
 
 public class Set extends IArea {
-   // String name;
-   // ArrayList<String> defaultNeighbors;
-   // private Rectangle area;
     private ArrayList<Integer> takeNums;
     private ArrayList<Rectangle> takeAreas;
     private ArrayList<Role> extraRoles;
     private int maxShots;
 
-   // ArrayList<IArea> connectedAreas;
-
     private Scene scene;
     private int shotCounters;
-    // ArrayList<Player> players;
 
     Set (String name, ArrayList<String> neighborStrings, Rectangle area, ArrayList<Integer> takeNums, ArrayList<Rectangle> takeAreas, ArrayList<Role> parts) {
         this.name = name;

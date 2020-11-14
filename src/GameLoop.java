@@ -75,7 +75,6 @@ class GameLoop {
     private void dayLoop() throws IOException {
         currPlayer = -1;
         dayOver = false;
-        // Loop should finish after itsAWrap is called in SetManager (if there is only one scene left).
         while (!dayOver) {
             currPlayer += 1;
             if (currPlayer == players.length) {
@@ -221,7 +220,6 @@ class GameLoop {
         actions.add("End Turn");
 
         return actions.toArray(new String[0]);
-//        return new String[]{"Move", "Choose Role", "Act", "Rehearse", "Upgrade", "End Turn"};
     }
 
 

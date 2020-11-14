@@ -5,7 +5,6 @@ import java.util.Arrays;
 // This class debatably has the most expansive job in our program.
 
 public class SetManager {
-    private Set[] sets;
     int wrapCount;
 
     void assignRoleTo(Player player, Role role) {
@@ -38,10 +37,6 @@ public class SetManager {
             player.practiceTokens = 0;
         }
         wrapCount++;
-    }
-
-    public int getWrapCount(){
-        return wrapCount;
     }
 
     // Utilities
