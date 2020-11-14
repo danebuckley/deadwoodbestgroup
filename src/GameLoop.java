@@ -42,7 +42,7 @@ class GameLoop {
         turnSort(players);
         gameLoop(numPlayers);
         
-        scoreManager.scoreGame(players); //this needs to receive the player array as input
+        scoreManager.endScoring(scoreManager.scoreGame(players));
     }
 
 
@@ -68,6 +68,8 @@ class GameLoop {
         for (int i = 0; i < numDays; i++) {
             dayLoop();
         }
+        System.out.println("Game has ended! now scoring...");
+
     }
 
     private void dayLoop() throws IOException {
@@ -83,6 +85,8 @@ class GameLoop {
             if (setManager.wrapCount == 9) {
                 dayOver = true;
                 setupManager.resetPlayers(players);
+                System.out.println("Day completed!");
+                setManager.wrapCount = 0;
             }
         }
     }

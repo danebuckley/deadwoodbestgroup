@@ -42,6 +42,8 @@ class SetupManager {
     public void resetPlayers(Player[] players) {
         for (int i = 0; i < players.length; i++) {
             players[i].currentArea = areabank.get("trailer");
+            players[i].role = null;
+            players[i].working = false;
         }
     }
 

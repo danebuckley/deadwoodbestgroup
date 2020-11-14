@@ -28,6 +28,24 @@ public class ScoringManager {
                     }
                 }
             }
+                bubbleSort(finalList);
+            System.out.println("And the winner is... " + finalList.get(0).name);
+    }
+
+    private static void bubbleSort(ArrayList<Player> a) {
+        boolean isSorted = false;
+        Player temp;
+        while (!isSorted) {
+            isSorted = true;
+            for (int i = 0; i < a.size() - 1; i++) {
+                if (a.get(i).finalScore < a.get(i+1).finalScore) {
+                    temp = a.get(i);
+                    a.set(i, a.get(i+1));
+                    a.set(i+1, temp);
+                    isSorted = false;
+                }
+            }
         }
+    }
     }
 
