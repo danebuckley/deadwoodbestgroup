@@ -1,8 +1,11 @@
+package ID.deadwood;
+
 import java.util.ArrayList;
 
 // For scoring and stuff... perhaps the ideal place for anything that needs to change numbers on multiple players?
-
 public class ScoringManager {
+
+    // Calculates final scores of players.
     public ArrayList<Player> scoreGame(Player[] players) {
         ArrayList<Player> finalList = new ArrayList<>();
         for (int i = 0; i < players.length; i++) {
@@ -14,6 +17,7 @@ public class ScoringManager {
         return finalList;
     }
 
+    // Orders players based on final score to determine winner.
     public void endScoring(ArrayList<Player> finalList){
             boolean isSorted = false;
             Player temp;
@@ -31,6 +35,9 @@ public class ScoringManager {
                 bubbleSort(finalList);
             System.out.println("And the winner is... " + finalList.get(0).name);
     }
+
+
+    // Utility
 
     private static void bubbleSort(ArrayList<Player> a) {
         boolean isSorted = false;

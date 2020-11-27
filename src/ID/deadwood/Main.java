@@ -1,11 +1,12 @@
-
+package ID.deadwood;
 // Just for running the game, is all.
 
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
 
+
+    public static void main(String[] args) {
          GameLoop gameLoop = new GameLoop();
          Scanner getNum = new Scanner(System.in);
          System.out.println("Welcome to Deadwood! How many players are playing today? (2-8)");

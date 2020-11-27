@@ -1,14 +1,18 @@
-// Just for everything related to a single role.
+package ID.deadwood;// Just for everything related to a single role.
 
 import java.awt.*;
 
-public class Role {
-    String name; // name!
-    private String line; // description!
-    private int rank; // rank!
-    boolean isExtra;
+class Role {
+
+    // Finals
+    final String name; // name!
+    final String line; // description!
+    final int rank; // rank!
+    final Rectangle area;
+    final boolean isExtra;
+
+    // State
     boolean chosen = false;
-    Rectangle area;
 
     Role(String name, String line, int level, Rectangle area, boolean isExtra) {
         this.name = name;
@@ -17,9 +21,4 @@ public class Role {
         this.area = area;
         this.isExtra = isExtra;
     }
-
-    public int getRank() {
-        return this.rank;
-    }
-
 }

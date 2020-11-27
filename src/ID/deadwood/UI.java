@@ -1,17 +1,14 @@
-
+package ID.deadwood;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
-
 // For anything visual; prompts, inputs, prints, etc.
-
 class UI {
 
     // Reused Methods
 
-    private String prompt(String descriptor, String[] actions) throws IOException {
+    private String prompt(String descriptor, String[] actions) {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         System.out.printf("%ss: \n", descriptor);
         if (actions.length > 0) {
@@ -23,11 +20,14 @@ class UI {
             System.out.printf("Pick an %s (#): ", descriptor);
             String input = "";
             while (true) {
-                input = in.readLine().trim();
-                if (isInt(input)) {
-                    int value = clamp(asInt(input), 1, actions.length);
-//                in.close();
-                    return actions[value - 1];
+                try {
+                    input = in.readLine().trim();
+                    if (isInt(input)) {
+                        int value = clamp(asInt(input), 1, actions.length);
+                        return actions[value - 1];
+                    }
+                } catch (Exception ex) {
+                    System.out.println("String parse failure; requires an integer value");
                 }
             }
         }
@@ -37,28 +37,14 @@ class UI {
         }
     }
 
-    public UIAction handlePlayerAction(String descriptor, String[] options) throws IOException {
+    public int handlePlayerAction(String descriptor, String[] options) {
         String action = prompt(descriptor, options);
-        return new UIAction(action, findIndex(options, action));
+        return findIndex(options, action);
     }
 
-
-    // Acting
-
-    // Rehearsing
-
-    private void handleRehearsal() {
-
-    }
-
-
-    // Upgrade
-
-    private void handleUpgradeOptions(String[] options) {
-
-    }
 
     // Utility
+
     public static int findIndex(String arr[], String t)
     {
         if (arr == null) {

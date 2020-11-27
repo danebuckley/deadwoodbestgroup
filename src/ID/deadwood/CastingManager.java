@@ -1,15 +1,18 @@
-
-// TODO: add rank costs and
+package ID.deadwood;
 
 import java.util.ArrayList;
 
-public class CastingManager {
-    private int[] optionInts = {2, 3, 4, 5, 6};
-    private String[] optionStrings = {"Rank 2 -- 4 / 5", "Rank 3 -- 10 / 10", "Rank 4 -- 18 / 15", "Rank 5 -- 28 / 20", "Rank 6 -- 40 / 25"};
-    private int[] dollarPrices = {4, 10, 18, 28, 40};
-    private int[] creditPrices = {5, 10, 15, 20, 25};
+class CastingManager {
+
+    // Finals
+    private final int[] optionInts = {2, 3, 4, 5, 6};
+    private final String[] optionStrings = {"Rank 2 -- 4 / 5", "Rank 3 -- 10 / 10", "Rank 4 -- 18 / 15", "Rank 5 -- 28 / 20", "Rank 6 -- 40 / 25"};
+    private final int[] dollarPrices = {4, 10, 18, 28, 40};
+    private final int[] creditPrices = {5, 10, 15, 20, 25};
 
     void setRankOf(Player player, int rank) { //dollars OR credits
+        player.hasUpgraded = true;
+
         switch (rank) {
             case 2: player.dollars -= 4;
                     player.credits -= 5;
@@ -34,7 +37,10 @@ public class CastingManager {
         }
     }
 
-    int[] getRankOptions(Player player) {
+
+    // Get Choices
+
+    int[] getUpgradeOptions(Player player) {
         ArrayList<Integer> options = new ArrayList<>();
         for (int i = 0; i < optionInts.length; i++) {
             if (player.credits >= creditPrices[i] || player.dollars >= dollarPrices[i]) {
@@ -48,7 +54,7 @@ public class CastingManager {
         return intOptions;
     }
 
-    String[] getRankStrings(Player player) {
+    String[] getUpgradeStrings(Player player) {
         ArrayList<String> options = new ArrayList<>();
         for (int i = 0; i < optionInts.length; i++) {
             if (player.credits >= creditPrices[i] || player.dollars >= dollarPrices[i]) {

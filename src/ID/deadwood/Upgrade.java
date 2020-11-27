@@ -1,12 +1,14 @@
+package ID.deadwood;
 
 import java.awt.*;
 
 public class Upgrade {
 
-    int level;
-    String currency;
-    int amount;
-    Rectangle area;
+    // Finals
+    final int level;
+    final String currency;
+    final int amount;
+    final Rectangle area;
 
     public Upgrade(int level, String currency, int amount, Rectangle area) {
         this.level = level;

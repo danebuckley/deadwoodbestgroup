@@ -1,3 +1,5 @@
+package ID.deadwood;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,13 +13,7 @@ import java.util.Hashtable;
 
 public class ParseXML{
 
-   private ArrayList<Set> setbank;
-   private ArrayList<Scene> scenebank;
-   private ArrayList<Role> rolebank;
-   private ArrayList<Role> extrabank;
-
-   // building a document from the XML file
-   // returns a Document object after loading the book.xml file.
+   // For Getting a Document for Use in the Rest of the Methods in ParseXML
    public static Document getDocFromFile(String filename) throws ParserConfigurationException {
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
       DocumentBuilder db = dbf.newDocumentBuilder();
@@ -29,9 +25,12 @@ public class ParseXML{
          System.out.println("XML parse failure");
          ex.printStackTrace();
       }
-   
+
       return doc;
    }
+
+
+   // Cards
 
    public static void parseSceneCards(Document d, ArrayList<Scene> scenebank) {
       Element root = d.getDocumentElement();
@@ -56,15 +55,18 @@ public class ParseXML{
             }
             else if ("part".equals(cardElement.getNodeName())) {
                parseRole(cardElement, sceneParts, false);
-            } // Scene vs Part
-         } // Card Contents
+            }
+         }
 
          scenebank.add(new Scene(sceneName, sceneImg, sceneBudget, sceneNumber, sceneDesc, sceneParts));
 
-      } // Card
+      }
    }
 
-   public static void parseBoard(Document d, ArrayList setbank, Hashtable<String, IArea> areabank) {
+
+   // Board
+
+   public static void parseBoard(Document d, ArrayList<Set> setbank, Hashtable<String, Room> areabank) {
       Element root = d.getDocumentElement();
       NodeList elements = root.getChildNodes();
       for (int i = 0; i < elements.getLength(); i++) {
@@ -80,10 +82,13 @@ public class ParseXML{
          else if ("office".equals(element.getNodeName())) {
             parseOffice(element, areabank);
          }
-      } // Card
+      }
    }
 
-   private static void parseTrailer(Node rootElement, Hashtable<String, IArea> areabank) {
+
+   // Trailer
+
+   private static void parseTrailer(Node rootElement, Hashtable<String, Room> areabank) {
 
       ArrayList<String> trailerNeighbors = new ArrayList<>();
       Rectangle trailerArea = new Rectangle();
@@ -103,7 +108,10 @@ public class ParseXML{
       areabank.put("trailer", new Trailer(trailerNeighbors, trailerArea));
    }
 
-   private static void parseOffice(Node rootElement, Hashtable<String, IArea> areabank) {
+
+   // Office
+
+   private static void parseOffice(Node rootElement, Hashtable<String, Room> areabank) {
 
       ArrayList<String> officeNeighbors = new ArrayList<>();
       Rectangle officeArea = new Rectangle();
@@ -127,7 +135,27 @@ public class ParseXML{
       areabank.put("office", new Office(officeNeighbors, officeArea, officeUpgrades));
    }
 
-   private static void parseSet(Node rootElement, ArrayList<Set> setbank, Hashtable<String, IArea> areabank) {
+   private static void parseUpgrades(Node rootElement, ArrayList<Upgrade> finalUpgrades) {
+      NodeList upgrades = rootElement.getChildNodes();
+      for (int k = 0; k < upgrades.getLength(); k++) {
+         Node upgrade = upgrades.item(k);
+
+         int level = parseIntegerAttribute(upgrade, "level");
+         String currency = parseStringAttribute(upgrade, "currency");
+         int amount = parseIntegerAttribute(upgrade, "amt");
+         Rectangle area = new Rectangle();
+
+         Node areaNode = upgrade.getFirstChild();
+         parseArea(areaNode, area);
+
+         finalUpgrades.add(new Upgrade(level, currency, amount, area));
+      }
+   }
+
+
+   // Set
+
+   private static void parseSet(Node rootElement, ArrayList<Set> setbank, Hashtable<String, Room> areabank) {
 
       String setName = parseStringAttribute(rootElement, "name");
       ArrayList<String> setNeighborStrings = new ArrayList<>();
@@ -159,23 +187,6 @@ public class ParseXML{
       areabank.put(setName, set);
    }
 
-   private static void parseUpgrades(Node rootElement, ArrayList<Upgrade> finalUpgrades) {
-      NodeList upgrades = rootElement.getChildNodes();
-      for (int k = 0; k < upgrades.getLength(); k++) {
-         Node upgrade = upgrades.item(k);
-
-         int level = parseIntegerAttribute(upgrade, "level");
-         String currency = parseStringAttribute(upgrade, "currency");
-         int amount = parseIntegerAttribute(upgrade, "amt");
-         Rectangle area = new Rectangle();
-
-         Node areaNode = upgrade.getFirstChild();
-         parseArea(areaNode, area);
-
-         finalUpgrades.add(new Upgrade(level, currency, amount, area));
-      }
-   }
-
    private static void parseNeighbors(Node rootElement, ArrayList<String> finalNeighbors) {
       NodeList neighbors = rootElement.getChildNodes();
       for (int k = 0; k < neighbors.getLength(); k++) {
@@ -199,6 +210,8 @@ public class ParseXML{
 
       }
    }
+
+   // Roles (Parts)
 
    private static void parseRoles(Node rootElement, ArrayList<Role> finalRoles, boolean isExtra) {
       NodeList roles = rootElement.getChildNodes();
@@ -232,12 +245,18 @@ public class ParseXML{
       parts.add(new Role(partName, partLine, partLevel, partArea, isExtra));
    }
 
+
+   // Area
+
    private static void parseArea(Node rootElement, Rectangle area) {
       area.x = parseIntegerAttribute(rootElement, "x");
       area.y = parseIntegerAttribute(rootElement, "y");
       area.height = parseIntegerAttribute(rootElement, "h");
       area.width = parseIntegerAttribute(rootElement, "w");
    }
+
+
+   // Attribute Contexts
 
    private static String parseStringAttribute(Node rootElement, String itemName) {
       return rootElement.getAttributes().getNamedItem(itemName).getTextContent();

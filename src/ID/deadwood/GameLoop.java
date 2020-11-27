@@ -1,3 +1,5 @@
+package ID.deadwood;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -6,23 +8,19 @@ import java.util.ArrayList;
 class GameLoop {
     
     // Managers
-    private SetupManager setupManager;
-    private SetManager setManager;
-    private MoveManager moveManager;
-    private ScoringManager scoreManager;
-    private UI ui;
-    private CastingManager castingManager;
+    private final SetupManager setupManager;
+    private final SetManager setManager;
+    private final MoveManager moveManager;
+    private final ScoringManager scoreManager;
+    private final UI ui;
+    private final CastingManager castingManager;
 
+    // Aggregators
     private Player[] players;
-
-    // Settings
-    private int numPlayers;
 
     // State
     private int currPlayer;
     private boolean turnOver;
-    private boolean dayOver;
-    private boolean gameOver;
 
     GameLoop() {
         setupManager = new SetupManager();
@@ -33,22 +31,18 @@ class GameLoop {
         castingManager = new CastingManager();
     }
 
-    void runGame(int numPlayers) throws IOException {
-
+    void runGame(int numPlayers) {
         setupManager.initializeGame();
-
-        this.numPlayers = numPlayers;
         players = setupManager.setupPlayers(numPlayers);
         turnSort(players);
         gameLoop(numPlayers);
-        
         scoreManager.endScoring(scoreManager.scoreGame(players));
     }
 
 
     // Game Loops
 
-    private void gameLoop(int numPlayers) throws IOException {
+    private void gameLoop(int numPlayers) {
         int numDays = 4;
         if (numPlayers == 2 || numPlayers == 3) {
             numDays = 3;
@@ -72,9 +66,9 @@ class GameLoop {
 
     }
 
-    private void dayLoop() throws IOException {
+    private void dayLoop() {
         currPlayer = -1;
-        dayOver = false;
+        boolean dayOver = false;
         while (!dayOver) {
             currPlayer += 1;
             if (currPlayer == players.length) {
@@ -91,7 +85,7 @@ class GameLoop {
     }
 
 
-    private void turnLoop() throws IOException {
+    private void turnLoop() {
         turnOver = false;
 
         Player player = players[currPlayer];
@@ -105,8 +99,8 @@ class GameLoop {
             print("\nPicking Action...");
 
             String[] actionStrings = getActionsOf(player);
-            UIAction action = ui.handlePlayerAction("Action", actionStrings);
-            switch (action.type) {
+            int actionIndex = ui.handlePlayerAction("Action", actionStrings);
+            switch (actionStrings[actionIndex]) {
                 case "Move": chooseMove(player); break;
                 case "Choose Role": chooseRole(player); break;
                 case "Act": chooseAct(player); break;
@@ -120,62 +114,45 @@ class GameLoop {
 
     // Choices
 
-    private void chooseMove(Player player) throws IOException {
+    private void chooseMove(Player player) {
         print("\nMoving...");
-        IArea[] areas = moveManager.getMoveOptions(player);
+        Room[] areas = moveManager.getMoveOptions(player);
         String[] options = moveManager.areasAsStrings(areas);
-        UIAction action = ui.handlePlayerAction("Move", options);
+        int actionIndex = ui.handlePlayerAction("Move", options);
         if (areas.length > 0) {
-            moveManager.move(player, areas[action.index]);
+            moveManager.move(player, areas[actionIndex]);
         }
-        player.hasMoved = true;
     }
 
-    private void chooseRole(Player player) throws IOException {
+    private void chooseRole(Player player) {
         print("\nChoosing Role...");
         Role[] roles = setManager.getRoleOptions(player);
         String[] options = setManager.rolesAsStrings(roles);
-        UIAction action = ui.handlePlayerAction("Role", options);
+        int actionIndex = ui.handlePlayerAction("Role", options);
         if (roles.length > 0) {
-            setManager.assignRoleTo(player, roles[action.index]);
+            setManager.assignRoleTo(player, roles[actionIndex]);
         }
     }
 
     private void chooseAct(Player player) {
-        Set currentSet = ((Set) player.currentArea);
-        int budget = currentSet.getScene().budget;
         print("Acting...");
-        boolean result = currentSet.act(player, budget);
-        if (result) {
-            System.out.println("Success! You have removed 1 shot counter.");
-            currentSet.addShot();
-            if (currentSet.getMaxShots() == currentSet.getShot()) {
-                setManager.itsAWrap(currentSet);
-                currentSet.resetShots();
-                System.out.print("That's a wrap! You've completed the scene.");
-            }
-        } else {
-            System.out.println("You failed :( Try again next turn.");
-        }
-        player.hasWorked = true;
+        setManager.act(player);
     }
 
     private void chooseRehearse(Player player) {
         print("Rehearsing...");
-        player.practiceTokens = player.practiceTokens + 1;
+        setManager.rehearse(player);
         print("You have gained a practice token! " + player.name + " now has " + player.practiceTokens + " practice tokens!");
-        player.hasWorked = true;
     }
 
-    private void chooseUpgrade(Player player) throws IOException {
+    private void chooseUpgrade(Player player) {
         print("\nUpgrading...");
-        int[] ranks = castingManager.getRankOptions(player);
-        String[] options = castingManager.getRankStrings(player);
-        UIAction action = ui.handlePlayerAction("Upgrade", options);
-        if (ranks.length > 0) {
-            castingManager.setRankOf(player, ranks[action.index]);
+        int[] upgrades = castingManager.getUpgradeOptions(player);
+        String[] options = castingManager.getUpgradeStrings(player);
+        int actionIndex = ui.handlePlayerAction("Upgrade", options);
+        if (upgrades.length > 0) {
+            castingManager.setRankOf(player, upgrades[actionIndex]);
         }
-        player.hasUpgraded = true;
     }
 
     private void chooseEndTurn() {
@@ -190,14 +167,13 @@ class GameLoop {
     private String[] getActionsOf(Player player) {
         ArrayList<String> actions = new ArrayList<>();
 
-        IArea curArea = player.currentArea;
-        String name = curArea.name;
-        if ((curArea.name).equals("trailer")) {
+        Room curRoom = player.currentArea;
+        if (curRoom.name.equals("trailer")) {
             if (!player.hasMoved) {
                 actions.add("Move");
             }
         }
-        else if ((curArea.name).equals("office")) {
+        else if (curRoom.name.equals("office")) {
             if (!player.hasMoved) {
                 actions.add("Move");
             }
@@ -224,6 +200,7 @@ class GameLoop {
 
 
     // Utility
+
     private void print(String string) {
         System.out.println(string);
     }

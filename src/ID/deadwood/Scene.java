@@ -1,17 +1,19 @@
+package ID.deadwood;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 // Just for everything related to a single scene; and perhaps some accessors for it's roles or whatevs.
+class Scene {
 
-public class Scene {
-    String name;
-    String img;
-    int budget;
-    int number;
-    String description;
-    private ArrayList<Role> roles;
+    // Finals
+    final String name;
+    final String img;
+    final int budget;
+    final int number;
+    final String description;
+
+    // Aggregators
+    private final ArrayList<Role> roles;
 
     Scene(String name, String img, int budget, int number, String description, ArrayList<Role> parts) {
         this.name = name;
