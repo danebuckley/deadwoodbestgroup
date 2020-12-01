@@ -14,10 +14,22 @@ class SetupManager {
     private final ArrayList<Scene> scenebank;
     private final ArrayList<Integer> sceneOrder = new ArrayList<>();
 
-    public SetupManager() {
+
+    // Singleton Functionality
+
+    static SetupManager uniqueInstance = null;
+
+    private SetupManager () {
         this.setbank = new ArrayList<>();
         this.areabank = new Hashtable<>();
         this.scenebank = new ArrayList<>();
+    }
+
+    static SetupManager getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new SetupManager();
+        }
+        return uniqueInstance;
     }
 
 
@@ -32,7 +44,7 @@ class SetupManager {
         distributeScenes(sceneOrder);
     }
 
-    public void constructPieces() {
+    void constructPieces() {
         try{
 
             String filenamePrefix = "src/ID/deadwood/";
@@ -68,7 +80,7 @@ class SetupManager {
 
     // Player Reset.
 
-    public void resetPlayers(Player[] players) {
+    void resetPlayers(Player[] players) {
         for (int i = 0; i < players.length; i++) {
             players[i].currentArea = areabank.get("trailer");
             players[i].role = null;
@@ -95,6 +107,22 @@ class SetupManager {
         for (int i = 0; i < num; i++) {
             players[i].turnNo = turnNo.get(i);
         }
+
+        // Initial currency and ranks
+        if (num == 5) {
+            for (int i = 0; i < players.length; i++) {
+                players[i].credits += 2;
+            }
+        } else if (num == 6) {
+            for (int i = 0; i < players.length; i++) {
+                players[i].credits += 4;
+            }
+        } else if (num == 7 || num == 8) {
+            for (int i = 0; i < players.length; i++) {
+                players[i].rank = 2;
+            }
+        }
+
         return players;
     }
 }

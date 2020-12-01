@@ -2,113 +2,135 @@ package ID.deadwood;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Scanner;
 
 // The core class; focused mainly on the general gameloops and player actions.
 
-class GameLoop {
+public class GameLoop {
     
     // Managers
-    private final SetupManager setupManager;
-    private final SetManager setManager;
-    private final MoveManager moveManager;
-    private final ScoringManager scoreManager;
-    private final UI ui;
-    private final CastingManager castingManager;
+    private static final SetupManager setupManager = SetupManager.getInstance();
+    private static final SetManager setManager = SetManager.getInstance();
+    private static final MoveManager moveManager = MoveManager.getInstance();
+    private static final ScoringManager scoreManager = ScoringManager.getInstance();
+    public static final UI ui = UI.getInstance();
+    private static final CastingManager castingManager = CastingManager.getInstance();
 
     // Aggregators
     private Player[] players;
+    private int numPlayers;
 
     // State
-    private int currPlayer;
+    private String state;
+    private int maxDays;
+    private int currPlayerIdx;
+    private boolean dayOver;
     private boolean turnOver;
 
-    GameLoop() {
-        setupManager = new SetupManager();
-        setManager = new SetManager();
-        moveManager = new MoveManager();
-        scoreManager = new ScoringManager();
-        ui = new UI();
-        castingManager = new CastingManager();
+    // Singleton Functionality
+
+    static GameLoop uniqueInstance = null;
+
+    private GameLoop() { }
+
+    public static GameLoop getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new GameLoop();
+        }
+        return uniqueInstance;
     }
 
-    void runGame(int numPlayers) {
+
+    // Run Method
+
+    void run() {
+
+//        Scanner getNum = new Scanner(System.in);
+        System.out.println("Welcome to Deadwood! How many players are playing today? (2-8)");
+        ui.displayOptionPrompt("Player", 1, 8);
+//        numPlayers = getNum.nextInt();
+//        if (numPlayers < 2 || numPlayers > 8) {
+//            System.exit(0);
+//        }
+    }
+
+    void startGame(int numPlayers) {
+        this.numPlayers = numPlayers;
         setupManager.initializeGame();
         players = setupManager.setupPlayers(numPlayers);
         turnSort(players);
-        gameLoop(numPlayers);
-        scoreManager.endScoring(scoreManager.scoreGame(players));
+        startGameCycle(numPlayers);
+//        scoreManager.endScoring(scoreManager.scoreGame(players));
     }
 
 
     // Game Loops
 
-    private void gameLoop(int numPlayers) {
-        int numDays = 4;
+    private void startGameCycle(int numPlayers) {
+        maxDays = 4;
         if (numPlayers == 2 || numPlayers == 3) {
-            numDays = 3;
-        } else if (numPlayers == 5) {
-            for (int i = 0; i < players.length; i++) {
-                players[i].credits += 2;
-            }
-        } else if (numPlayers == 6) {
-            for (int i = 0; i < players.length; i++) {
-                players[i].credits += 4;
-            }
-        } else if (numPlayers == 7 || numPlayers == 8) {
-            for (int i = 0; i < players.length; i++) {
-                players[i].rank = 2;
-            }
+            maxDays = 3;
         }
-        for (int i = 0; i < numDays; i++) {
-            dayLoop();
-        }
-        System.out.println("Game has ended! now scoring...");
-
+        startDayCycle();
+//        for (int i = 0; i < numDays; i++) {
+//            startDayCycle();
+//        }
+//        System.out.println("Game has ended! now scoring...");
     }
 
-    private void dayLoop() {
-        currPlayer = -1;
-        boolean dayOver = false;
-        while (!dayOver) {
-            currPlayer += 1;
-            if (currPlayer == players.length) {
-                currPlayer = 0;
-            }
-            turnLoop();
-            if (setManager.wrapCount == 9) {
-                dayOver = true;
-                setupManager.resetPlayers(players);
-                System.out.println("Day completed!");
-                setManager.wrapCount = 0;
-            }
+    private void startDayCycle() {
+        currPlayerIdx = -1;
+        dayOver = false;
+        doDayLoop();
+    }
+
+    private void doDayLoop() {
+        currPlayerIdx += 1;
+        if (currPlayerIdx == players.length) {
+            currPlayerIdx = 0;
+        }
+        startTurnCycle();
+        if (setManager.wrapCount == 9) {
+            dayOver = true;
+            setupManager.resetPlayers(players);
+            System.out.println("Day completed!");
+            setManager.wrapCount = 0;
         }
     }
 
 
-    private void turnLoop() {
+    private void startTurnCycle() {
         turnOver = false;
 
-        Player player = players[currPlayer];
+        Player player = players[currPlayerIdx];
 
         player.hasMoved = false;
         player.hasWorked = false;
         player.hasUpgraded = false;
 
-        System.out.println(players[currPlayer].name + "'s turn:");
-        while (!turnOver) {
-            print("\nPicking Action...");
+        System.out.println(player.name + "'s turn:");
+        doTurnLoop(player);
+    }
 
-            String[] actionStrings = getActionsOf(player);
-            int actionIndex = ui.handlePlayerAction("Action", actionStrings);
-            switch (actionStrings[actionIndex]) {
-                case "Move": chooseMove(player); break;
-                case "Choose Role": chooseRole(player); break;
-                case "Act": chooseAct(player); break;
-                case "Rehearse": chooseRehearse(player); break;
-                case "Upgrade": chooseUpgrade(player); break;
-                case "End Turn": chooseEndTurn(); break;
-            }
-        }
+    private void doTurnLoop(Player player) {
+        print("\nPicking Action...");
+
+        String[] optionStrings = getActionsOf(player);
+        ui.displayOptionPrompt("Action", optionStrings);
+
+//            switch (actionStrings[actionIndex]) {
+//                case "Move": chooseMove(player); break;
+//                case "Choose Role": chooseRole(player); break;
+//                case "Act": chooseAct(player); break;
+//                case "Rehearse": chooseRehearse(player); break;
+//                case "Upgrade": chooseUpgrade(player); break;
+//                case "End Turn": chooseEndTurn(); break;
+    }
+
+
+    private void triggerOptionEvent(int idx) {
+
     }
 
 
@@ -118,20 +140,20 @@ class GameLoop {
         print("\nMoving...");
         Room[] areas = moveManager.getMoveOptions(player);
         String[] options = moveManager.areasAsStrings(areas);
-        int actionIndex = ui.handlePlayerAction("Move", options);
-        if (areas.length > 0) {
-            moveManager.move(player, areas[actionIndex]);
-        }
+        ui.displayOptionPrompt("Move", options);
+//        if (areas.length > 0) {
+//            moveManager.move(player, areas[actionIndex]);
+//        }
     }
 
     private void chooseRole(Player player) {
         print("\nChoosing Role...");
         Role[] roles = setManager.getRoleOptions(player);
         String[] options = setManager.rolesAsStrings(roles);
-        int actionIndex = ui.handlePlayerAction("Role", options);
-        if (roles.length > 0) {
-            setManager.assignRoleTo(player, roles[actionIndex]);
-        }
+        ui.displayOptionPrompt("Role", options);
+//        if (roles.length > 0) {
+//            setManager.assignRoleTo(player, roles[actionIndex]);
+//        }
     }
 
     private void chooseAct(Player player) {
@@ -149,10 +171,10 @@ class GameLoop {
         print("\nUpgrading...");
         int[] upgrades = castingManager.getUpgradeOptions(player);
         String[] options = castingManager.getUpgradeStrings(player);
-        int actionIndex = ui.handlePlayerAction("Upgrade", options);
-        if (upgrades.length > 0) {
-            castingManager.setRankOf(player, upgrades[actionIndex]);
-        }
+        ui.displayOptionPrompt("Upgrade", options);
+//        if (upgrades.length > 0) {
+//            castingManager.setRankOf(player, upgrades[actionIndex]);
+//        }
     }
 
     private void chooseEndTurn() {

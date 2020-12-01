@@ -1,6 +1,7 @@
 package ID.deadwood;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 class CastingManager {
 
@@ -9,6 +10,21 @@ class CastingManager {
     private final String[] optionStrings = {"Rank 2 -- 4 / 5", "Rank 3 -- 10 / 10", "Rank 4 -- 18 / 15", "Rank 5 -- 28 / 20", "Rank 6 -- 40 / 25"};
     private final int[] dollarPrices = {4, 10, 18, 28, 40};
     private final int[] creditPrices = {5, 10, 15, 20, 25};
+
+
+    // Singleton Functionality
+
+    static CastingManager uniqueInstance = null;
+
+    private CastingManager () { }
+
+    static CastingManager getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new CastingManager();
+        }
+        return uniqueInstance;
+    }
+
 
     void setRankOf(Player player, int rank) { //dollars OR credits
         player.hasUpgraded = true;

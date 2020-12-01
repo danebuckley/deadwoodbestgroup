@@ -11,7 +11,7 @@ import org.w3c.dom.*;
 
 import java.util.Hashtable;
 
-public class ParseXML{
+class ParseXML{
 
    // For Getting a Document for Use in the Rest of the Methods in ParseXML
    public static Document getDocFromFile(String filename) throws ParserConfigurationException {

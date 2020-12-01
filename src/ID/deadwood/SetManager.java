@@ -7,8 +7,25 @@ import java.util.Random;
 // The ideal place for digging into scenes and roles that have been assigned to a set. (probably)
 // This class debatably has the most expansive job in our program.
 
-public class SetManager {
+class SetManager {
     int wrapCount;
+
+
+    // Singleton Functionality
+
+    static SetManager uniqueInstance = null;
+
+    private SetManager () { }
+
+    static SetManager getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new SetManager();
+        }
+        return uniqueInstance;
+    }
+
+
+    // Method
 
     void assignRoleTo(Player player, Role role) {
         if (player.rank >= role.rank) {

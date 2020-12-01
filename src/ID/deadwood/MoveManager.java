@@ -2,6 +2,21 @@ package ID.deadwood;// The ideal place for anything movement related
 
 class MoveManager {
 
+    // Singleton Functionality
+
+    static MoveManager uniqueInstance = null;
+
+    private MoveManager () { }
+
+    static MoveManager getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new MoveManager();
+        }
+        return uniqueInstance;
+    }
+
+
+    // Methods
 
     void move(Player player, Room area) {
         player.currentArea = area;

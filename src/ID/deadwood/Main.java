@@ -1,19 +1,28 @@
 package ID.deadwood;
-// Just for running the game, is all.
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.util.Scanner;
 
-public class Main {
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root, 1050, 720));
+        primaryStage.show();
+
+        GameLoop gameLoop = GameLoop.getInstance();
+        gameLoop.run();
+    }
 
 
     public static void main(String[] args) {
-         GameLoop gameLoop = new GameLoop();
-         Scanner getNum = new Scanner(System.in);
-         System.out.println("Welcome to Deadwood! How many players are playing today? (2-8)");
-         int numPlayers = getNum.nextInt();
-         if (numPlayers < 2 || numPlayers > 8) {
-             System.exit(0);
-         }
-         gameLoop.runGame(numPlayers);
+        launch(args);
     }
 }

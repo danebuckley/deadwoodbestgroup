@@ -3,7 +3,23 @@ package ID.deadwood;
 import java.util.ArrayList;
 
 // For scoring and stuff... perhaps the ideal place for anything that needs to change numbers on multiple players?
-public class ScoringManager {
+class ScoringManager {
+
+    // Singleton Functionality
+
+    static ScoringManager uniqueInstance = null;
+
+    private ScoringManager () { }
+
+    static ScoringManager getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new ScoringManager();
+        }
+        return uniqueInstance;
+    }
+
+
+    // Methods
 
     // Calculates final scores of players.
     public ArrayList<Player> scoreGame(Player[] players) {

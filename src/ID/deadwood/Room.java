@@ -3,7 +3,7 @@ package ID.deadwood;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Room {
+class Room {
 
     // "Finals"
     String name;
