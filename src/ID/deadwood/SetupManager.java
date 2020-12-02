@@ -10,7 +10,7 @@ class SetupManager {
 
     // Aggregators
     private final ArrayList<Set> setbank;
-    private final Hashtable<String, Room> areabank;
+    public final Hashtable<String, Room> areabank;
     private final ArrayList<Scene> scenebank;
     private final ArrayList<Integer> sceneOrder = new ArrayList<>();
 
@@ -98,9 +98,7 @@ class SetupManager {
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
             players[i].currentArea = areabank.get("trailer");
-            System.out.println("Please enter Player " + (i+1) + "'s name:");
-            String name = scanner.next();
-            players[i].name = name;
+            players[i].name = "Player " + Integer.toString(i+1);
             turnNo.add(i);
         }
         Collections.shuffle(turnNo);

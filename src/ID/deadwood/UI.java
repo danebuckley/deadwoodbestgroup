@@ -8,7 +8,7 @@ public class UI {
     // Singleton Functionality
 
     private static UI uniqueInstance = null;
-
+    private static GameLoop gameloop = null;
     private UI () { }
 
     public static UI getInstance() {
@@ -17,7 +17,6 @@ public class UI {
         }
         return uniqueInstance;
     }
-
 
     // Properties
 
@@ -78,12 +77,13 @@ public class UI {
         if (options.length > idx) {
             System.out.println(options[idx]);
         }
-        System.out.println("");
+        String optionChose = options[idx];
+        gameloop.getInstance().triggerOptionEvent(idx, optionChose);
     }
 
-//    public static void triggerActionEvent(String action, String[] options) {
-//        findIndex(action, options);
-//    }
+    //public static void triggerActionEvent(String action, String[] options) {
+    //    findIndex(action, options);
+    //}
 
     // Utility
 
