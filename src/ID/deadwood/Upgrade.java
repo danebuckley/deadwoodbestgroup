@@ -2,7 +2,7 @@ package ID.deadwood;
 
 import java.awt.*;
 
-public class Upgrade {
+class Upgrade {
 
     // Finals
     final int level;

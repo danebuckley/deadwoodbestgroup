@@ -18,8 +18,14 @@ class MoveManager {
 
     // Methods
 
-    void move(Player player, Room area) {
-        player.currentArea = area;
+    void move(Player player, Room room) {
+        Room curRoom = player.currentRoom;
+        curRoom.playerList.remove(player);
+
+        player.currentRoom = room;
+        room.playerList.add(player);
+        System.out.println(room.playerList.get(0));
+        System.out.println(room.name);
         player.hasMoved = true;
     }
 
@@ -27,13 +33,18 @@ class MoveManager {
     // Get Choices
 
     Room[] getMoveOptions(Player player) {
-        return player.currentArea.connectedAreas.toArray(new Room[0]);
+        return player.currentRoom.connectedAreas.toArray(new Room[0]);
     }
 
     String[] areasAsStrings(Room[] areas) {
-        String[] strings = new String[areas.length];
-        for (int i = 0; i < areas.length; i++) {
-            strings[i] = areas[i].name;
+        String[] strings = new String[areas.length+1];
+        for (int i = 0; i < areas.length + 1; i++) {
+            if (i < areas.length) {
+                strings[i] = areas[i].name;
+            }
+            else {
+                strings[i] = "Go Back";
+            }
         }
         return strings;
     }

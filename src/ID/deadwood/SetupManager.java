@@ -9,8 +9,8 @@ import org.w3c.dom.Document;
 class SetupManager {
 
     // Aggregators
-    private final ArrayList<Set> setbank;
-    public final Hashtable<String, Room> areabank;
+    final ArrayList<Set> setbank;
+    final Hashtable<String, Room> roombank;
     private final ArrayList<Scene> scenebank;
     private final ArrayList<Integer> sceneOrder = new ArrayList<>();
 
@@ -21,7 +21,7 @@ class SetupManager {
 
     private SetupManager () {
         this.setbank = new ArrayList<>();
-        this.areabank = new Hashtable<>();
+        this.roombank = new Hashtable<>();
         this.scenebank = new ArrayList<>();
     }
 
@@ -52,18 +52,18 @@ class SetupManager {
             Document cardDoc = ParseXML.getDocFromFile(filenamePrefix + "cards.xml");
             Document boardDoc = ParseXML.getDocFromFile(filenamePrefix + "board.xml");
             ParseXML.parseSceneCards(cardDoc, scenebank);
-            ParseXML.parseBoard(boardDoc, setbank, areabank);
+            ParseXML.parseBoard(boardDoc, setbank, roombank);
 
         }catch (Exception e){
 
             System.out.println("Error = "+e);
 
         }
-        Enumeration<String> keys = areabank.keys();
+        Enumeration<String> keys = roombank.keys();
         while (keys.hasMoreElements()) {
-            Room area = areabank.get(keys.nextElement());
+            Room area = roombank.get(keys.nextElement());
             for (int i = 0; i < area.defaultNeighbors.size(); i++) {
-                area.connectedAreas.add(areabank.get(area.defaultNeighbors.get(i)));
+                area.connectedAreas.add(roombank.get(area.defaultNeighbors.get(i)));
             }
         }
     }
@@ -82,9 +82,15 @@ class SetupManager {
 
     void resetPlayers(Player[] players) {
         for (int i = 0; i < players.length; i++) {
-            players[i].currentArea = areabank.get("trailer");
+            players[i].currentRoom = roombank.get("trailer");
             players[i].role = null;
             players[i].working = false;
+        }
+    }
+
+    void resetRooms() {
+        for (Set set : setbank) {
+            set.isWrapped = false;
         }
     }
 
@@ -97,7 +103,7 @@ class SetupManager {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < num; i++) {
             players[i] = new Player(Integer.toString(i+1));
-            players[i].currentArea = areabank.get("trailer");
+            players[i].currentRoom = roombank.get("trailer");
             players[i].name = "Player " + Integer.toString(i+1);
             turnNo.add(i);
         }

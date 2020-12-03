@@ -1,12 +1,8 @@
 package ID.deadwood;
 
-import com.sun.xml.internal.bind.v2.runtime.output.SAXOutput;
-import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
-
-import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Scanner;
 
 // The core class; focused mainly on the general gameloops and player actions.
 
@@ -25,9 +21,11 @@ public class GameLoop {
     private int numPlayers;
 
     // State
+    private String lastState;
     private String state;
     private Role[] roleChoices;  //hmm
     private int maxDays;
+    private int curDays;
     private int currPlayerIdx;
     private boolean dayOver;
     private boolean turnOver;
@@ -74,60 +72,69 @@ public class GameLoop {
 
     private void startGameCycle(int numPlayers) {
         maxDays = 4;
+        curDays = 0;
         if (numPlayers == 2 || numPlayers == 3) {
             maxDays = 3;
         }
-        startDayCycle();
+        doGameLoop();
 //        for (int i = 0; i < numDays; i++) {
 //            startDayCycle();
 //        }
 //        System.out.println("Game has ended! now scoring...");
     }
 
+    private void doGameLoop() {
+        System.out.println("*do game loop...*");
+        curDays += 1;
+        if (curDays >= maxDays) {
+            System.out.println("Game has ended! now scoring...");
+            scoreManager.endScoring(scoreManager.scoreGame(players));
+        }
+        else {
+            startDayCycle();
+        }
+    }
+
     private void startDayCycle() {
         currPlayerIdx = -1;
-        dayOver = false;
-        state = "Day";
+        setManager.wrapCount = 0;
         doDayLoop();
     }
 
     private void doDayLoop() {
+        System.out.println("*do day loop...*");
         currPlayerIdx += 1;
         if (currPlayerIdx == players.length) {
             currPlayerIdx = 0;
         }
-        startTurnCycle();
-        if (setManager.wrapCount == 9) {
-            dayOver = true;
-            state = "EndDay";
-            setupManager.resetPlayers(players);
+        System.out.println(setManager.wrapCount);
+        if (setManager.wrapCount >= setupManager.setbank.size()-1) {
             System.out.println("Day completed!");
-            setManager.wrapCount = 0;
+            setupManager.resetPlayers(players);
+            setupManager.resetRooms();
+            doGameLoop();
+        }
+        else {
+            startTurnCycle();
         }
     }
 
 
     private void startTurnCycle() {
-        turnOver = false;
+//        turnOver = false;
         Player player = players[currPlayerIdx];
+        player.hasMoved = false;
+        player.hasUpgraded = false;
+        player.hasWorked = false;
         System.out.println(player.name + "'s turn:");
         doTurnLoop(player);
     }
 
     private void doTurnLoop(Player player) {
         print("\nPicking Action...");
-        state = "Turn";
+        setState("Turn");
         String[] optionStrings = getActionsOf(player);
         ui.displayOptionPrompt("Action", optionStrings);
-        if (turnOver) {
-            if (currPlayerIdx < players.length - 1) {
-                currPlayerIdx += 1;
-            } else {
-                currPlayerIdx = 0;
-            }
-            startTurnCycle();
-        }
-
 //            switch (actionStrings[actionIndex]) {
 //                case "Move": chooseMove(player); break;
 //                case "Choose Role": chooseRole(player); break;
@@ -138,52 +145,59 @@ public class GameLoop {
     }
 
 
+    private void setState(String state) {
+        this.lastState = this.state;
+        this.state = state;
+    }
+
     public void triggerOptionEvent(int idx, String optionChose) {
-        if (idx == 8) {
-            state = "goBack";
-        }
+        Player player = !state.equals("PlayerCount") ? players[currPlayerIdx] : null;
         switch(state) {
-            case "goBack":
-                String[] optionStrings = getActionsOf(players[currPlayerIdx]);
-                ui.displayOptionPrompt("Action", optionStrings);
-                break;
             case "PlayerCount":
                 numPlayers = idx+1;
                 startGame(numPlayers);
                 break;
             case "Turn":
-                if (optionChose.equals("Move")) { //switch statement? doesn't reallllly matter but makes it look nice
-                    chooseMove(players[currPlayerIdx]);
-                }
-                if (optionChose.equals("Choose Role")) {
-                    chooseRole(players[currPlayerIdx]);
-                }
-                if (optionChose.equals("Upgrade")) {
-                    chooseUpgrade(players[currPlayerIdx]);
-                }
-                if (optionChose.equals("End Turn")) {
-                    chooseEndTurn();
-                    doTurnLoop(players[currPlayerIdx]);
-                }
-                if (optionChose.equals("Act")) {
-                    chooseAct(players[currPlayerIdx]);
-                    doTurnLoop(players[currPlayerIdx]);
-                }
-                if (optionChose.equals("Rehearse")) {
-                    chooseRehearse(players[currPlayerIdx]);
-                    doTurnLoop(players[currPlayerIdx]);
+                switch(optionChose) {
+                    case "Move" : chooseMove(player); break;
+                    case "Choose Role" : chooseRole(player); break;
+                    case "Upgrade" : chooseUpgrade(player); break;
+                    case "End Turn" : chooseEndTurn(); break;
+                    case "Act" : chooseAct(player); doTurnLoop(player); break;
+                    case "Rehearse" : chooseRehearse(player); doTurnLoop(player); break;
                 }
                 break;
             case "Move":
-                if (setupManager.areabank.containsKey(optionChose)) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get(optionChose);
-                    doTurnLoop(players[currPlayerIdx]);
+                if (optionChose.equals("Go Back")) {
+                    doTurnLoop(player);
                 }
-                state = "Turn";
+                else {
+                    Hashtable<String, Room> roombank = setupManager.roombank;
+                    if (roombank.containsKey(optionChose)) {
+                        Room room = roombank.get(optionChose);
+                        moveManager.move(player, room);
+                        doTurnLoop(player);
+                    }
+                }
                 break;
             case "Choose Role":
-                setManager.assignRoleTo(players[currPlayerIdx], roleChoices[idx]);
-                doTurnLoop(players[currPlayerIdx]);
+                if (optionChose.equals("Go Back")) {
+                    doTurnLoop(player);
+                }
+                else {
+                    setManager.assignRoleTo(player, roleChoices[idx]);
+                    doTurnLoop(player);
+                }
+                break;
+            case "Upgrade":
+                if (optionChose.equals("Go Back")) {
+                    doTurnLoop(player);
+                }
+                else {
+                    int rank = castingManager.getUpgradeOptions(player)[idx];
+                    castingManager.setRankOf(player, rank);
+                    doTurnLoop(player);
+                }
                 break;
         }
     }
@@ -193,8 +207,7 @@ public class GameLoop {
 
     private void chooseMove(Player player) {
         print("\nMoving...");
-        state = "Move";
-        players[currPlayerIdx].hasMoved = true;
+        setState("Move");
         Room[] areas = moveManager.getMoveOptions(player);
         String[] options = moveManager.areasAsStrings(areas);
         ui.displayOptionPrompt("Move", options);
@@ -205,7 +218,7 @@ public class GameLoop {
 
     private void chooseRole(Player player) {
         print("\nChoosing Role...");
-        state = "Choose Role";
+        setState("Choose Role");
         Role[] roles = setManager.getRoleOptions(player);
         roleChoices = roles;
         String[] options = setManager.rolesAsStrings(roles);
@@ -217,20 +230,20 @@ public class GameLoop {
 
     private void chooseAct(Player player) {
         print("Acting...");
-        state = "Act";
+        setState("Act");
         setManager.act(player);
     }
 
     private void chooseRehearse(Player player) {
         print("Rehearsing...");
-        state = "Reherase";
+        setState("Rehearse");
         setManager.rehearse(player);
         print("You have gained a practice token! " + player.name + " now has " + player.practiceTokens + " practice tokens!");
     }
 
     private void chooseUpgrade(Player player) {
         print("\nUpgrading...");
-        state = "Upgrade";
+        setState("Upgrade");
         int[] upgrades = castingManager.getUpgradeOptions(player);
         String[] options = castingManager.getUpgradeStrings(player);
         ui.displayOptionPrompt("Upgrade", options);
@@ -242,7 +255,13 @@ public class GameLoop {
     private void chooseEndTurn() {
         print("Ending Turn...");
         print("\n");
-        turnOver = true;
+        doDayLoop();
+//        if (currPlayerIdx < players.length - 1) {
+//            currPlayerIdx += 1;
+//        } else {
+//            currPlayerIdx = 0;
+//        }
+//        startTurnCycle();
     }
 
 
@@ -251,7 +270,7 @@ public class GameLoop {
     private String[] getActionsOf(Player player) {
         ArrayList<String> actions = new ArrayList<>();
 
-        Room curRoom = player.currentArea;
+        Room curRoom = player.currentRoom;
         if (curRoom.name.equals("trailer")) {
             if (!player.hasMoved) {
                 actions.add("Move");
@@ -266,18 +285,27 @@ public class GameLoop {
             }
         }
         else {
+            Set curSet = (Set) curRoom;
             if (!player.working) {
-                if (!player.hasMoved) {
+                if (!player.hasMoved && !player.hasWorked) {
                     actions.add("Move");
                 }
-                actions.add("Choose Role");
+                if (!curSet.isWrapped) {
+                    actions.add("Choose Role");
+                }
             }
-            else if (!player.hasWorked) {
-                actions.add("Act");
-                actions.add("Rehearse");
+            else if (!player.hasWorked && !player.hasMoved) {
+                if (!curSet.isWrapped) {
+                    actions.add("Act");
+                }
+                if (player.role.rank > player.practiceTokens + 1) {
+                    actions.add("Rehearse");
+                }
             }
         }
-        actions.add("End Turn");
+        if (!player.working || player.hasMoved || (player.hasWorked)) {
+            actions.add("End Turn");
+        }
 
         return actions.toArray(new String[0]);
     }

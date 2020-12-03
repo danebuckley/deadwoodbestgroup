@@ -2,7 +2,6 @@ package ID.deadwood;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 // NOTE: sets function in a sort of linked-list fashion; there is no map of sets, as they can be accessed through one another.
 
@@ -15,8 +14,9 @@ class Set extends Room {
     final int maxTakes;
 
     // State
+    boolean isWrapped;
     Scene scene;
-    int currTakes;
+    int currShots;
 
     Set (String name, ArrayList<String> neighborStrings, Rectangle area, ArrayList<Integer> takeNums, ArrayList<Rectangle> takeAreas, ArrayList<Role> parts) {
         this.name = name;
@@ -27,9 +27,9 @@ class Set extends Room {
         this.extraRoles = parts;
         this.maxTakes = takeNums.size();
         this.connectedAreas = new ArrayList<>();
-        this.currTakes = 0;
+        this.currShots = 0;
         this.playerList = new ArrayList<>();
-
+        this.isWrapped = false;
     }
 
     Role[] getRoles() {
@@ -43,7 +43,7 @@ class Set extends Room {
     }
 
     void resetTakes() {
-        this.currTakes = 0;
+        this.currShots = 0;
     }
 
     void addPlayer(Player player) {

@@ -52,13 +52,15 @@ class SetManager {
     }
 
     void act(Player player) { //currently assumes that the player on the card
-        Set currentSet = (Set) player.currentArea;
+        Set currentSet = (Set) player.currentRoom;
         int budget = currentSet.scene.budget;
-        currentSet.currTakes += 1;
 
         boolean result;
         ArrayList<Integer> diceRoll = handleDice(player, 1);
-        if (diceRoll.get(0) >= budget) {
+        result = diceRoll.get(0) >= budget;
+        if (result) {
+            currentSet.currShots += 1;
+            System.out.println("Success! You have removed 1 shot counter.");
             if (player.role.isExtra) {
                 player.dollars += 1;
                 player.credits += 1;
@@ -66,25 +68,16 @@ class SetManager {
             else {
                 player.credits += 2;
             }
-            result = true;
-        }
-        else {
-            if (player.role.isExtra) {
-                player.dollars += 1;
-            }
-            result = false;
-        }
-
-        if (result) {
-            System.out.println("Success! You have removed 1 shot counter.");
-            if (currentSet.maxTakes == currentSet.currTakes) {
+            if (currentSet.maxTakes <= currentSet.currShots) {
                 itsAWrap(currentSet);
                 currentSet.resetTakes();
-                System.out.print("That's a wrap! You've completed the scene.");
             }
         }
         else {
             System.out.println("You failed :( Try again next turn.");
+            if (player.role.isExtra) {
+                player.dollars += 1;
+            }
         }
 
         player.hasWorked = true;
@@ -95,16 +88,22 @@ class SetManager {
 
     public void itsAWrap(Set currentSet) {
 
+        System.out.print("That's a wrap! You've completed the scene. ");
+
         for (int i = 0; i < currentSet.playerList.size(); i++) {
             Player player = currentSet.playerList.get(i);
+            System.out.println(player.name);
             Scene scene = currentSet.scene;
             ArrayList<Role> roles = new ArrayList<>(Arrays.asList(scene.getRoles()));
             int pos = roles.indexOf(player.role);
             payOut(player, scene.budget, currentSet.getRoles().length, pos);
             player.working = false;
             player.practiceTokens = 0;
+            player.role.chosen = false;
+            player.role = null;
         }
         wrapCount++;
+        currentSet.isWrapped = true;
     }
 
     void payOut(Player player, int budget, int numRoles, int pos) { //ASSUMES PLAYER IS ON SCENE AND NOT EXTRA ROLE, does not include bonuses
@@ -121,16 +120,13 @@ class SetManager {
                 }
             }
         }
-        player.role.chosen = false;
-        player.role = null;
-        player.working = false;
     }
 
 
     // Get Choices
 
     Role[] getRoleOptions(Player player) {
-        Set currSet = (Set) player.currentArea;
+        Set currSet = (Set) player.currentRoom;
         Role[] allRoles = getRoles(currSet);
 
         ArrayList<Role> availRoles = new ArrayList<Role>(Arrays.asList(allRoles));
@@ -146,9 +142,14 @@ class SetManager {
     }
 
     String[] rolesAsStrings(Role[] roles) {
-        String[] strings = new String[roles.length];
-        for (int i = 0; i < roles.length; i++) {
-            strings[i] = roles[i].name + " (" + roles[i].rank + ")";
+        String[] strings = new String[roles.length + 1];
+        for (int i = 0; i < roles.length + 1; i++) {
+            if (i < roles.length) {
+                strings[i] = roles[i].name + " (" + roles[i].rank + ")";
+            }
+            else {
+                strings[i] = "Go Back";
+            }
         }
         return strings;
     }

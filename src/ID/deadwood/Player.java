@@ -15,7 +15,7 @@ class Player {
 
     // State
     Role role = null;
-    Room currentArea;
+    Room currentRoom;
     int turnNo; // Felt cute, might delete later.
     boolean working = false;
     boolean hasMoved = false;

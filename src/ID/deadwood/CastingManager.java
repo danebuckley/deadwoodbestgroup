@@ -77,6 +77,7 @@ class CastingManager {
                 options.add(optionStrings[i]);
             }
         }
+        options.add("Go Back");
         return options.toArray(new String[0]);
     }
 }
