@@ -26,6 +26,7 @@ public class GameLoop {
 
     // State
     private String state;
+    private Role[] roleChoices;  //hmm
     private int maxDays;
     private int currPlayerIdx;
     private boolean dayOver;
@@ -116,6 +117,8 @@ public class GameLoop {
     private void doTurnLoop(Player player) {
         print("\nPicking Action...");
         state = "Turn";
+        String[] optionStrings = getActionsOf(player);
+        ui.displayOptionPrompt("Action", optionStrings);
         if (turnOver) {
             if (currPlayerIdx < players.length - 1) {
                 currPlayerIdx += 1;
@@ -124,8 +127,6 @@ public class GameLoop {
             }
             startTurnCycle();
         }
-        String[] optionStrings = getActionsOf(player);
-        ui.displayOptionPrompt("Action", optionStrings);
 
 //            switch (actionStrings[actionIndex]) {
 //                case "Move": chooseMove(player); break;
@@ -138,71 +139,51 @@ public class GameLoop {
 
 
     public void triggerOptionEvent(int idx, String optionChose) {
+        if (idx == 8) {
+            state = "goBack";
+        }
         switch(state) {
+            case "goBack":
+                String[] optionStrings = getActionsOf(players[currPlayerIdx]);
+                ui.displayOptionPrompt("Action", optionStrings);
+                break;
             case "PlayerCount":
                 numPlayers = idx+1;
                 startGame(numPlayers);
                 break;
             case "Turn":
-                if (optionChose.equals("Move")) {
+                if (optionChose.equals("Move")) { //switch statement? doesn't reallllly matter but makes it look nice
                     chooseMove(players[currPlayerIdx]);
                 }
                 if (optionChose.equals("Choose Role")) {
                     chooseRole(players[currPlayerIdx]);
                 }
+                if (optionChose.equals("Upgrade")) {
+                    chooseUpgrade(players[currPlayerIdx]);
+                }
                 if (optionChose.equals("End Turn")) {
                     chooseEndTurn();
                     doTurnLoop(players[currPlayerIdx]);
                 }
+                if (optionChose.equals("Act")) {
+                    chooseAct(players[currPlayerIdx]);
+                    doTurnLoop(players[currPlayerIdx]);
+                }
+                if (optionChose.equals("Rehearse")) {
+                    chooseRehearse(players[currPlayerIdx]);
+                    doTurnLoop(players[currPlayerIdx]);
+                }
                 break;
             case "Move":
-                if (optionChose.equals("Main Street")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Main Street");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("Saloon")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Saloon");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("Jail")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Jail");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("Train Station")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Train Station");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("General Store")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("General Store");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("Bank")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Bank");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("Church")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Church");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("Hotel")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Hotel");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("Secret Hideout")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Secret Hideout");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("office")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("office");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("Ranch")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("Ranch");
-                    doTurnLoop(players[currPlayerIdx]);
-                } else if (optionChose.equals("trailer")) {
-                    players[currPlayerIdx].currentArea = setupManager.areabank.get("trailer");
+                if (setupManager.areabank.containsKey(optionChose)) {
+                    players[currPlayerIdx].currentArea = setupManager.areabank.get(optionChose);
                     doTurnLoop(players[currPlayerIdx]);
                 }
                 state = "Turn";
                 break;
-            case "Act":
-                chooseAct(players[currPlayerIdx]);
-                break;
-            case "Rehearse":
-                chooseRehearse(players[currPlayerIdx]);
-                break;
-            case "Upgrade":
-                chooseUpgrade(players[currPlayerIdx]);
+            case "Choose Role":
+                setManager.assignRoleTo(players[currPlayerIdx], roleChoices[idx]);
+                doTurnLoop(players[currPlayerIdx]);
                 break;
         }
     }
@@ -213,6 +194,7 @@ public class GameLoop {
     private void chooseMove(Player player) {
         print("\nMoving...");
         state = "Move";
+        players[currPlayerIdx].hasMoved = true;
         Room[] areas = moveManager.getMoveOptions(player);
         String[] options = moveManager.areasAsStrings(areas);
         ui.displayOptionPrompt("Move", options);
@@ -223,8 +205,9 @@ public class GameLoop {
 
     private void chooseRole(Player player) {
         print("\nChoosing Role...");
-        state = "ChooseRole";
+        state = "Choose Role";
         Role[] roles = setManager.getRoleOptions(player);
+        roleChoices = roles;
         String[] options = setManager.rolesAsStrings(roles);
         ui.displayOptionPrompt("Role", options);
 //        if (roles.length > 0) {

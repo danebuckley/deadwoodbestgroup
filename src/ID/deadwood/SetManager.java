@@ -148,7 +148,7 @@ class SetManager {
     String[] rolesAsStrings(Role[] roles) {
         String[] strings = new String[roles.length];
         for (int i = 0; i < roles.length; i++) {
-            strings[i] = roles[i].name;
+            strings[i] = roles[i].name + " (" + roles[i].rank + ")";
         }
         return strings;
     }

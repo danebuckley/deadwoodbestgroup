@@ -20,13 +20,14 @@ public class Controller implements Initializable {
     @FXML private Button op_six;
     @FXML private Button op_seven;
     @FXML private Button op_eight;
+    @FXML private Button op_back;
 
     private UI ui = UI.getInstance();
     private static Button[] buttons;
 //    private static String[] buttonActions;
 
     public void initialize(URL location, ResourceBundle resources) {
-        buttons = new Button[]{op_one, op_two, op_three, op_four, op_five, op_six, op_seven, op_eight};
+        buttons = new Button[]{op_one, op_two, op_three, op_four, op_five, op_six, op_seven, op_eight, op_back};
         for (int i = 0; i < buttons.length; i++) {
             final int idx = i;
             System.out.println(idx);
