@@ -14,7 +14,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Deadwood");
-        primaryStage.setScene(new Scene(root, 1050, 720));
+        primaryStage.setScene(new Scene(root, 1200, 720));
         primaryStage.show();
 
         GameLoop gameLoop = GameLoop.getInstance();

@@ -58,6 +58,11 @@ public class GameLoop {
 //        }
     }
 
+    void awaitStart() {
+        state = "Starting";
+        ui.displayDialogPrompt("Start?", "Or not, we don't mind THAT much. :P");
+    }
+
     void startGame(int numPlayers) {
         this.numPlayers = numPlayers;
         setupManager.initializeGame();
@@ -76,6 +81,7 @@ public class GameLoop {
         if (numPlayers == 2 || numPlayers == 3) {
             maxDays = 3;
         }
+        ui.displayGameState(setManager.wrapCount, curDays, maxDays);
         doGameLoop();
 //        for (int i = 0; i < numDays; i++) {
 //            startDayCycle();
@@ -86,9 +92,12 @@ public class GameLoop {
     private void doGameLoop() {
         System.out.println("*do game loop...*");
         curDays += 1;
+        ui.displayGameState(setManager.wrapCount, curDays, maxDays);
         if (curDays >= maxDays) {
             System.out.println("Game has ended! now scoring...");
-            scoreManager.endScoring(scoreManager.scoreGame(players));
+            String winner = scoreManager.endScoring(scoreManager.scoreGame(players));
+            state = "Restart";
+            ui.displayDialogPrompt(winner + " wins!", "Play again?");
         }
         else {
             startDayCycle();
@@ -98,6 +107,7 @@ public class GameLoop {
     private void startDayCycle() {
         currPlayerIdx = -1;
         setManager.wrapCount = 0;
+        ui.displayGameState(setManager.wrapCount, curDays, maxDays);
         doDayLoop();
     }
 
@@ -107,6 +117,7 @@ public class GameLoop {
         if (currPlayerIdx == players.length) {
             currPlayerIdx = 0;
         }
+        ui.displayGameState(setManager.wrapCount, curDays, maxDays);
         System.out.println(setManager.wrapCount);
         if (setManager.wrapCount >= setupManager.setbank.size()-1) {
             System.out.println("Day completed!");
@@ -127,21 +138,16 @@ public class GameLoop {
         player.hasUpgraded = false;
         player.hasWorked = false;
         System.out.println(player.name + "'s turn:");
+        ui.displayPlayer(player);
         doTurnLoop(player);
     }
 
     private void doTurnLoop(Player player) {
+        ui.displayPlayer(player);
         print("\nPicking Action...");
         setState("Turn");
         String[] optionStrings = getActionsOf(player);
         ui.displayOptionPrompt("Action", optionStrings);
-//            switch (actionStrings[actionIndex]) {
-//                case "Move": chooseMove(player); break;
-//                case "Choose Role": chooseRole(player); break;
-//                case "Act": chooseAct(player); break;
-//                case "Rehearse": chooseRehearse(player); break;
-//                case "Upgrade": chooseUpgrade(player); break;
-//                case "End Turn": chooseEndTurn(); break;
     }
 
 
@@ -150,12 +156,23 @@ public class GameLoop {
         this.state = state;
     }
 
+    public void triggerDialogEvent(String button) {
+        switch (button) {
+            case "NEXT" :
+                switch (state) {
+                    case "Starting" : startGame(this.numPlayers); break;
+                    case "Restarting" : run(); break;
+                }
+                break;
+        }
+    }
+
     public void triggerOptionEvent(int idx, String optionChose) {
         Player player = !state.equals("PlayerCount") ? players[currPlayerIdx] : null;
         switch(state) {
             case "PlayerCount":
-                numPlayers = idx+1;
-                startGame(numPlayers);
+                this.numPlayers = idx+1;
+                awaitStart();
                 break;
             case "Turn":
                 switch(optionChose) {
@@ -211,9 +228,6 @@ public class GameLoop {
         Room[] areas = moveManager.getMoveOptions(player);
         String[] options = moveManager.areasAsStrings(areas);
         ui.displayOptionPrompt("Move", options);
-//        if (areas.length > 0) {
-//            moveManager.move(player, areas[actionIndex]);
-//        }
     }
 
     private void chooseRole(Player player) {
@@ -223,9 +237,6 @@ public class GameLoop {
         roleChoices = roles;
         String[] options = setManager.rolesAsStrings(roles);
         ui.displayOptionPrompt("Role", options);
-//        if (roles.length > 0) {
-//            setManager.assignRoleTo(player, roles[actionIndex]);
-//        }
     }
 
     private void chooseAct(Player player) {
@@ -247,21 +258,12 @@ public class GameLoop {
         int[] upgrades = castingManager.getUpgradeOptions(player);
         String[] options = castingManager.getUpgradeStrings(player);
         ui.displayOptionPrompt("Upgrade", options);
-//        if (upgrades.length > 0) {
-//            castingManager.setRankOf(player, upgrades[actionIndex]);
-//        }
     }
 
     private void chooseEndTurn() {
         print("Ending Turn...");
         print("\n");
         doDayLoop();
-//        if (currPlayerIdx < players.length - 1) {
-//            currPlayerIdx += 1;
-//        } else {
-//            currPlayerIdx = 0;
-//        }
-//        startTurnCycle();
     }
 
 

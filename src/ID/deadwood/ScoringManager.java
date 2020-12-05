@@ -34,7 +34,7 @@ class ScoringManager {
     }
 
     // Orders players based on final score to determine winner.
-    public void endScoring(ArrayList<Player> finalList){
+    public String endScoring(ArrayList<Player> finalList){
             boolean isSorted = false;
             Player temp;
             while (!isSorted) {
@@ -49,7 +49,8 @@ class ScoringManager {
                 }
             }
                 bubbleSort(finalList);
-            System.out.println("And the winner is... " + finalList.get(0).name);
+            return finalList.get(0).name;
+//            System.out.println("And the winner is... " + finalList.get(0).name);
     }
 
 
